@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(cmake000 C ASM)
+set(PROJECT_NAME cmakeProject)
+project(${PROJECT_NAME} C ASM)
 
 set(CMAKE_C_STANDARD 11)
 
@@ -139,15 +140,15 @@ endif()
 # -----------------------------------------------------------------------------
 #  Create ELF target
 # -----------------------------------------------------------------------------
-add_executable(cmake000.elf ${SOURCES})
+add_executable(${PROJECT_NAME}.elf ${SOURCES})
 
 # -----------------------------------------------------------------------------
 #  Linker options — order matters: place script first
 # -----------------------------------------------------------------------------
 
-target_link_options(cmake000.elf PRIVATE
+target_link_options(${PROJECT_NAME}.elf PRIVATE
     -T${LINKER_SCRIPT}
-    -Wl,-Map=${PROJECT_BINARY_DIR}/cmake000.map
+    -Wl,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map
     -Wl,--gc-sections
     -static
     --specs=nano.specs
@@ -159,9 +160,9 @@ target_link_options(cmake000.elf PRIVATE
 # -----------------------------------------------------------------------------
 #  Post‑build: BIN, HEX & size report
 # -----------------------------------------------------------------------------
-add_custom_command(TARGET cmake000.elf POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:cmake000.elf> cmake000.bin
-    COMMAND ${CMAKE_OBJCOPY} -O ihex   $<TARGET_FILE:cmake000.elf> cmake000.hex
-    COMMAND ${CMAKE_SIZE}              $<TARGET_FILE:cmake000.elf>
+add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}.elf> ${PROJECT_NAME}.bin
+    COMMAND ${CMAKE_OBJCOPY} -O ihex   $<TARGET_FILE:${PROJECT_NAME}.elf> ${PROJECT_NAME}.hex
+    COMMAND ${CMAKE_SIZE}              $<TARGET_FILE:${PROJECT_NAME}.elf>
     COMMENT "[post-build]  Generated BIN & HEX, printed size"
 )
