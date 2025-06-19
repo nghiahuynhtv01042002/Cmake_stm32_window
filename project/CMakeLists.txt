@@ -6,14 +6,14 @@ project(${PROJECT_NAME} C ASM)
 set(CMAKE_C_STANDARD 11)
 
 # -----------------------------------------------------------------------------
-#  Toolchain check (remind user to pass one if forgotten)
+#  Toolchain check
 # -----------------------------------------------------------------------------
 if(NOT CMAKE_TOOLCHAIN_FILE)
     message(WARNING "You should invoke CMake with -DCMAKE_TOOLCHAIN_FILE=<path/to/arm-toolchain.cmake>")
 endif()
 
 # -----------------------------------------------------------------------------
-#  CPU / FPU / ABI flags (LIST —> each element is a separate flag!)
+#  CPU / FPU / ABI flags
 # -----------------------------------------------------------------------------
 set(MCU_FLAGS
     -mcpu=cortex-m4
@@ -26,7 +26,7 @@ set(OPTIMIZE_FLAGS
     -Oz
 )
 # -----------------------------------------------------------------------------
-#  Common warnings / section‑saving flags (also a LIST)
+#  Common warnings 
 # -----------------------------------------------------------------------------
 set(COMMON_FLAGS
     -Wall
@@ -54,7 +54,7 @@ add_compile_definitions(
 )
 
 # -----------------------------------------------------------------------------
-#  Include directories (order matters: Core/Inc first)
+#  Include directories (o
 # -----------------------------------------------------------------------------
 ## MANUAL INCLUDING HEADER DIR
 # include_directories(
@@ -87,7 +87,7 @@ include_directories(
     ${INCLUDE_DIRS}
 )
 # -----------------------------------------------------------------------------
-#  Source files (C) — recurse through typical Cube MX folders
+#  Source files (C) 
 # -----------------------------------------------------------------------------
 # file(GLOB_RECURSE SOURCES
 #     Core/Src/*.c
