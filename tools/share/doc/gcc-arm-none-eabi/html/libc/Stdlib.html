@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Stdlib (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="Stdlib (The Red Hat newlib C Library)">
+<meta name="keywords" content="Stdlib (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="Function-_005fExit.html#Function-_005fExit" rel="next" title="Function _Exit">
+<link href="Function-_005fwrite_005fr.html#Function-_005fwrite_005fr" rel="prev" title="Function _write_r">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Stdlib"></a>
+<div class="header">
+<p>
+Next: <a href="Ctype.html#Ctype" accesskey="n" rel="next">Ctype</a>, Previous: <a href="Syscalls.html#Syscalls" accesskey="p" rel="prev">Syscalls</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Standard-Utility-Functions-_0028stdlib_002eh_0029"></a>
+<h2 class="chapter">3 Standard Utility Functions (<samp>stdlib.h</samp>)</h2>
+
+<p>This chapter groups utility functions useful in a variety of programs.
+The corresponding declarations are in the header file <samp>stdlib.h</samp>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Function-_005fExit.html#Function-_005fExit" accesskey="1">Function _Exit</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">End program execution without cleaning up
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-a64l.html#Function-a64l" accesskey="2">Function a64l</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">String to long long
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-abort.html#Function-abort" accesskey="3">Function abort</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Abnormal termination of a program
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-abs.html#Function-abs" accesskey="4">Function abs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Integer absolute value (magnitude)
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-assert.html#Function-assert" accesskey="5">Function assert</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Macro for Debugging Diagnostics
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-atexit.html#Function-atexit" accesskey="6">Function atexit</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Request execution of functions at program exit
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-atof.html#Function-atof" accesskey="7">Function atof</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">String to double or float
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-atoi.html#Function-atoi" accesskey="8">Function atoi</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">String to integer
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-atoll.html#Function-atoll" accesskey="9">Function atoll</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">String to long long
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-bsearch.html#Function-bsearch">Function bsearch</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Binary search
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-calloc.html#Function-calloc">Function calloc</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Allocate space for arrays
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-div.html#Function-div">Function div</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Divide two integers
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-ecvtbuf.html#Function-ecvtbuf">Function ecvtbuf</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Double or float to string of digits
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-ecvt.html#Function-ecvt">Function ecvt</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Double or float to string of digits (malloc result)
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-_005f_005fenv_005flock.html#Function-_005f_005fenv_005flock">Function __env_lock</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Lock environment list for getenv and setenv
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-gcvt.html#Function-gcvt">Function gcvt</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Format double or float as string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-exit.html#Function-exit">Function exit</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">End program execution
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-getenv.html#Function-getenv">Function getenv</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Look up environment variable
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-itoa.html#Function-itoa">Function itoa</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Integer to string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-labs.html#Function-labs">Function labs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Long integer absolute value (magnitude)
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-ldiv.html#Function-ldiv">Function ldiv</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Divide two long integers
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-llabs.html#Function-llabs">Function llabs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Long long integer absolute value (magnitude)
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-lldiv.html#Function-lldiv">Function lldiv</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Divide two long long integers
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-malloc.html#Function-malloc">Function malloc</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Allocate and manage memory (malloc, realloc, free)
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-mallinfo.html#Function-mallinfo">Function mallinfo</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Get information about allocated memory
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-_005f_005fmalloc_005flock.html#Function-_005f_005fmalloc_005flock">Function __malloc_lock</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Lock memory pool for malloc and free
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-mbsrtowcs.html#Function-mbsrtowcs">Function mbsrtowcs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Convert a character string to a wide-character string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-mbstowcs.html#Function-mbstowcs">Function mbstowcs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Minimal multibyte string to wide string converter
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-mblen.html#Function-mblen">Function mblen</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Minimal multibyte length
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-mbtowc.html#Function-mbtowc">Function mbtowc</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Minimal multibyte to wide character converter
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-on_005fexit.html#Function-on_005fexit">Function on_exit</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Request execution of functions at program exit
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-qsort.html#Function-qsort">Function qsort</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Array sort
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-rand.html#Function-rand">Function rand</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Pseudo-random numbers
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-random.html#Function-random">Function random</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Pseudo-random numbers
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-rand48.html#Function-rand48">Function rand48</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Uniformly distributed pseudo-random numbers
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-rpmatch.html#Function-rpmatch">Function rpmatch</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Determine whether response is affirmative or negative
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strtod.html#Function-strtod">Function strtod</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">String to double or float
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strtol.html#Function-strtol">Function strtol</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">String to long
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strtoll.html#Function-strtoll">Function strtoll</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">String to long long
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strtoul.html#Function-strtoul">Function strtoul</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">String to unsigned long
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strtoull.html#Function-strtoull">Function strtoull</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">String to unsigned long long
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcsrtombs.html#Function-wcsrtombs">Function wcsrtombs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Convert a wide-character string to a character string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcstod.html#Function-wcstod">Function wcstod</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Wide string to double or float
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcstol.html#Function-wcstol">Function wcstol</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Wide string to long
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcstoll.html#Function-wcstoll">Function wcstoll</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Wide string to long long
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcstoul.html#Function-wcstoul">Function wcstoul</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Wide string to unsigned long
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcstoull.html#Function-wcstoull">Function wcstoull</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Wide string to unsigned long long
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-system.html#Function-system">Function system</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Execute command string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-utoa.html#Function-utoa">Function utoa</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Unsigned integer to string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcstombs.html#Function-wcstombs">Function wcstombs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Minimal wide string to multibyte string converter
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wctomb.html#Function-wctomb">Function wctomb</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Minimal wide character to multibyte converter
+</td></tr>
+</table>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Ctype.html#Ctype" accesskey="n" rel="next">Ctype</a>, Previous: <a href="Syscalls.html#Syscalls" accesskey="p" rel="prev">Syscalls</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

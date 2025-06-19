@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Function posix_spawn (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="Function posix_spawn (The Red Hat newlib C Library)">
+<meta name="keywords" content="Function posix_spawn (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Posix.html#Posix" rel="up" title="Posix">
+<link href="Encoding-conversions.html#Encoding-conversions" rel="next" title="Encoding conversions">
+<link href="Function-popen.html#Function-popen" rel="prev" title="Function popen">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Function-posix_005fspawn"></a>
+<div class="header">
+<p>
+Previous: <a href="Function-popen.html#Function-popen" accesskey="p" rel="prev">Function popen</a>, Up: <a href="Posix.html#Posix" accesskey="u" rel="up">Posix</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="posix_005fspawn_002c-posix_005fspawnp_002d_002d_002dspawn-a-process"></a>
+<h3 class="section">14.2 <code>posix_spawn</code>, <code>posix_spawnp</code>&mdash;spawn a process</h3>
+<a name="index-posix_005fspawn"></a>
+<a name="index-posix_005fspawnp"></a>
+<p><strong>Synopsis</strong>
+</p><div class="example">
+<pre class="example">#include &lt;spawn.h&gt;
+
+int posix_spawn(pid_t *<var>pid</var>, const char *<var>path</var>,
+    const posix_spawn_file_actions_t *<var>file_actions</var>,
+    const posix_spawnattr_t *<var>attrp</var>,
+    char *const <var>argv</var>[], char *const <var>envp</var>[]);
+int posix_spawnp(pid_t *<var>pid</var>, const char *<var>file</var>,
+    const posix_spawn_file_actions_t *<var>file_actions</var>,
+    const posix_spawnattr_t *<var>attrp</var>,
+    char *const <var>argv</var>[], char *const <var>envp</var>[]);
+
+</pre></div>
+<p><strong>Description</strong><br>
+Use <code>posix_spawn</code> and <code>posix_spawnp</code> to create a new child process
+from the specified process image file. <code>argc</code> is the argument count
+and <code>argv</code> is an array of argument strings passed to the new program.
+<code>envp</code> is an array of stings, which are passed as environment to the
+new program.
+</p>
+<p>The <code>path</code> argument to <code>posix_spawn</code> identifies the new process
+image file to execute. The <code>file</code> argument to <code>posix_spawnp</code> is
+used to construct a pathname that identifies the new process image
+file by duplicating the actions of the shell in searching for an
+executable file if the specified filename does not contain a &lsquo;<code>/</code>&rsquo;
+character. The <code>file</code> is sought in the colon-separated list of
+directory pathnames specified in the <code>PATH</code> environment variable.
+</p>
+<p>The file descriptors remain open across <code>posix_spawn</code> and
+<code>posix_spawnp</code> except for those marked as close-on-exec. The open
+file descriptors in the child process can be modified by the spawn file
+actions object pointed to by <code>file_actions</code>.
+</p>
+<p>The spawn attributes object type pointed to by <code>attrp</code> argument
+may contain any of the attributes defined in <code>spawn.h</code>.
+</p>
+<br>
+<p><strong>Returns</strong><br>
+<code>posix_spawn</code> and <code>posix_spawnp</code> return the process ID of the newly
+spawned child process in the variable pointed by a non-NULL <code>*<var>pid</var></code>
+argument and zero as the function return value upon successful
+completion. Otherwise, <code>posix_spawn</code> and <code>posix_spawnp</code> return an
+error number as the function return value to indicate the error; the
+value stored into the variable pointed to by a non-NULL <code>*<var>pid</var></code>
+argument is unspecified.
+</p>
+<br>
+<p><strong>Portability</strong><br>
+POSIX.1-2008 requires <code>posix_spawn</code> and <code>posix_spawnp</code>.
+</p>
+<p>Supporting OS subroutines required: <code>_close</code>, <code>dup2</code>, <code>_fcntl</code>,
+<code>_execve</code>, <code>execvpe</code>, <code>_exit</code>, <code>_open</code>, <code>sigaction</code>,
+<code>sigprocmask</code>, <code>waitpid</code>, <code>sched_setscheduler</code>,
+<code>sched_setparam</code>, <code>setegid</code>, <code>seteuid</code>, <code>setpgid</code>, <code>vfork</code>.
+</p>
+<br>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Function-popen.html#Function-popen" accesskey="p" rel="prev">Function popen</a>, Up: <a href="Posix.html#Posix" accesskey="u" rel="up">Posix</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

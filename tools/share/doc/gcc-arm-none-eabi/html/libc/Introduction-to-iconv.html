@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Introduction to iconv (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="Introduction to iconv (The Red Hat newlib C Library)">
+<meta name="keywords" content="Introduction to iconv (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Encoding-conversions.html#Encoding-conversions" rel="up" title="Encoding conversions">
+<link href="Supported-encodings.html#Supported-encodings" rel="next" title="Supported encodings">
+<link href="Function-iconv.html#Function-iconv" rel="prev" title="Function iconv">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Introduction-to-iconv"></a>
+<div class="header">
+<p>
+Next: <a href="Supported-encodings.html#Supported-encodings" accesskey="n" rel="next">Supported encodings</a>, Previous: <a href="Function-iconv.html#Function-iconv" accesskey="p" rel="prev">Function iconv</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Introduction-to-iconv-1"></a>
+<h3 class="section">15.2 Introduction to iconv</h3>
+<a name="index-encoding"></a>
+<a name="index-character-set"></a>
+<a name="index-charset"></a>
+<a name="index-CES"></a>
+<a name="index-CCS"></a>
+<br>
+<p>The iconv library is intended to convert characters from one encoding to
+another. It implements iconv(), iconv_open() and iconv_close()
+calls, which are defined by the Single Unix Specification.
+</p>
+<br>
+<p>In addition to these user-level interfaces, the iconv library also has
+several useful interfaces which are needed to support coding
+capabilities of the Newlib Locale infrastructure.  Since Locale 
+support also needs to
+convert various character sets to and from the <em>wide characters
+set</em>, the iconv library shares it&rsquo;s capabilities with the Newlib Locale
+subsystem. Moreover, the iconv library supports several features which are
+only needed for the Locale infrastructure (for example, the MB_CUR_MAX value).
+</p>
+<br>
+<p>The Newlib iconv library was created using concepts from another iconv
+library implemented by Konstantin Chuguev (ver 2.0). The Newlib iconv library
+was rewritten from scratch and contains a lot of improvements with respect to
+the original iconv library. 
+</p>
+<br>
+<p>Terms like <em>encoding</em> or <em>character set</em> aren&rsquo;t well defined and
+are often used with various meanings. The following are the definitions of terms
+which are used in this documentation as well as in the iconv library
+implementation:
+</p>
+<ul>
+<li> <em>encoding</em> - a machine representation of characters by means of bits;
+
+</li><li> <em>Character Set</em> or <em>Charset</em> - just a collection of
+characters, i.e. the encoding is the machine representation of the character set; 
+
+</li><li> <em>CCS</em> (<em>Coded Character Set</em>) - a mapping from an character set to a
+set of integers <em>character codes</em>;
+
+</li><li> <em>CES</em> (<em>Character Encoding Scheme</em>) - a mapping from a set of character
+codes to a sequence of bytes;
+</li></ul>
+
+<br>
+<p>Users usually deal with encodings, for example, KOI8-R, Unicode, UTF-8,
+ASCII, etc. Encodings are formed by the following chain of steps:
+</p>
+<ol>
+<li> User has a set of characters which are specific to his or her language (character set).
+
+</li><li> Each character from this set is uniquely numbered, resulting in an CCS.
+
+</li><li> Each number from the CCS is converted to a sequence of bits or bytes by means
+of a CES and form some encoding. Thus, CES may be considered as a
+function of CCS which produces some encoding. Note, that CES may be
+applied to more than one CCS.
+</li></ol>
+
+<br>
+<p>Thus, an encoding may be considered as one or more CCS + CES.
+</p>
+<br>
+<p>Sometimes, there is no CES and in such cases encoding is equivalent
+to CCS, e.g. KOI8-R or ASCII.
+</p>
+<br>
+<p>An example of a more complicated encoding is UTF-8 which is the UCS
+(or Unicode) CCS plus the UTF-8 CES.
+</p>
+<br>
+<p>The following is a brief list of iconv library features:
+</p><ul>
+<li> Generic architecture;
+</li><li> Locale infrastructure support;
+</li><li> Automatic generation of the program code which handles
+CES/CCS/Encoding/Names/Aliases dependencies;
+</li><li> The ability to choose size- or speed-optimazed
+configuration;
+</li><li> The ability to exclude a lot of unneeded code and data from the linking step.
+</li></ul>
+
+
+
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Supported-encodings.html#Supported-encodings" accesskey="n" rel="next">Supported encodings</a>, Previous: <a href="Function-iconv.html#Function-iconv" accesskey="p" rel="prev">Function iconv</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

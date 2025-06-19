@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Supported encodings (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="Supported encodings (The Red Hat newlib C Library)">
+<meta name="keywords" content="Supported encodings (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Encoding-conversions.html#Encoding-conversions" rel="up" title="Encoding conversions">
+<link href="iconv-design-decisions.html#iconv-design-decisions" rel="next" title="iconv design decisions">
+<link href="Introduction-to-iconv.html#Introduction-to-iconv" rel="prev" title="Introduction to iconv">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Supported-encodings"></a>
+<div class="header">
+<p>
+Next: <a href="iconv-design-decisions.html#iconv-design-decisions" accesskey="n" rel="next">iconv design decisions</a>, Previous: <a href="Introduction-to-iconv.html#Introduction-to-iconv" accesskey="p" rel="prev">Introduction to iconv</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Supported-encodings-1"></a>
+<h3 class="section">15.3 Supported encodings</h3>
+<a name="index-big5"></a>
+<a name="index-cp775"></a>
+<a name="index-cp850"></a>
+<a name="index-cp852"></a>
+<a name="index-cp855"></a>
+<a name="index-cp866"></a>
+<a name="index-euc_005fjp"></a>
+<a name="index-euc_005fkr"></a>
+<a name="index-euc_005ftw"></a>
+<a name="index-iso_005f8859_005f1"></a>
+<a name="index-iso_005f8859_005f10"></a>
+<a name="index-iso_005f8859_005f11"></a>
+<a name="index-iso_005f8859_005f13"></a>
+<a name="index-iso_005f8859_005f14"></a>
+<a name="index-iso_005f8859_005f15"></a>
+<a name="index-iso_005f8859_005f2"></a>
+<a name="index-iso_005f8859_005f3"></a>
+<a name="index-iso_005f8859_005f4"></a>
+<a name="index-iso_005f8859_005f5"></a>
+<a name="index-iso_005f8859_005f6"></a>
+<a name="index-iso_005f8859_005f7"></a>
+<a name="index-iso_005f8859_005f8"></a>
+<a name="index-iso_005f8859_005f9"></a>
+<a name="index-iso_005fir_005f111"></a>
+<a name="index-koi8_005fr"></a>
+<a name="index-koi8_005fru"></a>
+<a name="index-koi8_005fu"></a>
+<a name="index-koi8_005funi"></a>
+<a name="index-ucs_005f2"></a>
+<a name="index-ucs_005f2_005finternal"></a>
+<a name="index-ucs_005f2be"></a>
+<a name="index-ucs_005f2le"></a>
+<a name="index-ucs_005f4"></a>
+<a name="index-ucs_005f4_005finternal"></a>
+<a name="index-ucs_005f4be"></a>
+<a name="index-ucs_005f4le"></a>
+<a name="index-us_005fascii"></a>
+<a name="index-utf_005f16"></a>
+<a name="index-utf_005f16be"></a>
+<a name="index-utf_005f16le"></a>
+<a name="index-utf_005f8"></a>
+<a name="index-win_005f1250"></a>
+<a name="index-win_005f1251"></a>
+<a name="index-win_005f1252"></a>
+<a name="index-win_005f1253"></a>
+<a name="index-win_005f1254"></a>
+<a name="index-win_005f1255"></a>
+<a name="index-win_005f1256"></a>
+<a name="index-win_005f1257"></a>
+<a name="index-win_005f1258"></a>
+<br>
+<p>The following is the list of currently supported encodings. The first column
+corresponds to the encoding name, the second column is the list of aliases,
+the third column is its CES and CCS components names, and the fourth column
+is a short description.
+</p>
+<table>
+<tr><td width="20%">Name</td><td width="26%">Aliases</td><td width="24%">CES/CCS</td><td width="30%">Short description</td></tr>
+<tr><td width="20%"></td><td width="26%"></td><td width="24%"></td><td width="30%"></td></tr>
+<tr><td width="20%">big5</td><td width="26%">csbig5, big_five, bigfive, cn_big5, cp950</td><td width="24%">table_pcs / big5, us_ascii</td><td width="30%">The encoding for the Traditional Chinese.</td></tr>
+<tr><td width="20%">cp775</td><td width="26%">ibm775, cspc775baltic</td><td width="24%">table / cp775</td><td width="30%">The updated version of CP 437 that supports the balitic languages.</td></tr>
+<tr><td width="20%">cp850</td><td width="26%">ibm850, 850, cspc850multilingual</td><td width="24%">table / cp850</td><td width="30%">IBM 850 - the updated version of CP 437 where several Latin 1 characters have been
+added instead of some less-often used characters like the line-drawing
+and the greek ones.</td></tr>
+<tr><td width="20%">cp852</td><td width="26%">ibm852, 852, cspcp852</td><td width="24%"></td><td width="30%">IBM 852 - the updated version of CP 437 where several Latin 2 characters have been added
+instead of some less-often used characters like the line-drawing and the greek ones.</td></tr>
+<tr><td width="20%">cp855</td><td width="26%">ibm855, 855, csibm855</td><td width="24%">table / cp855</td><td width="30%">IBM 855 - the updated version of CP 437 that supports Cyrillic.</td></tr>
+<tr><td width="20%">cp866</td><td width="26%">866, IBM866, CSIBM866</td><td width="24%">table / cp866</td><td width="30%">IBM 866 - the updated version of CP 855 which follows more the logical Russian alphabet 
+ordering of the alternative variant that is preferred by many Russian users.</td></tr>
+<tr><td width="20%">euc_jp</td><td width="26%">eucjp</td><td width="24%">euc / jis_x0208_1990, jis_x0201_1976, jis_x0212_1990</td><td width="30%">EUC-JP - The EUC for Japanese.</td></tr>
+<tr><td width="20%">euc_kr</td><td width="26%">euckr</td><td width="24%">euc / ksx1001</td><td width="30%">EUC-KR - The EUC for Korean.</td></tr>
+<tr><td width="20%">euc_tw</td><td width="26%">euctw</td><td width="24%">euc / cns11643_plane1, cns11643_plane2, cns11643_plane14</td><td width="30%">EUC-TW - The EUC for Traditional Chinese.</td></tr>
+<tr><td width="20%">iso_8859_1</td><td width="26%">iso8859_1, iso88591, iso_8859_1:1987, iso_ir_100, latin1, l1, ibm819, cp819, csisolatin1</td><td width="24%">table / iso_8859_1</td><td width="30%">ISO 8859-1:1987 - Latin 1, West European.</td></tr>
+<tr><td width="20%">iso_8859_10</td><td width="26%">iso_8859_10:1992, iso_ir_157, iso885910, latin6, l6, csisolatin6, iso8859_10</td><td width="24%">table / iso_8859_10</td><td width="30%">ISO 8859-10:1992 - Latin 6, Nordic.</td></tr>
+<tr><td width="20%">iso_8859_11</td><td width="26%">iso8859_11, iso885911</td><td width="24%">table / iso_8859_11</td><td width="30%">ISO 8859-11 - Thai.</td></tr>
+<tr><td width="20%">iso_8859_13</td><td width="26%">iso_8859_13:1998, iso8859_13, iso885913</td><td width="24%">table / iso_8859_13</td><td width="30%">ISO 8859-13:1998 - Latin 7, Baltic Rim.</td></tr>
+<tr><td width="20%">iso_8859_14</td><td width="26%">iso_8859_14:1998, iso885914, iso8859_14</td><td width="24%">table / iso_8859_14</td><td width="30%">ISO 8859-14:1998 - Latin 8, Celtic.</td></tr>
+<tr><td width="20%">iso_8859_15</td><td width="26%">iso885915, iso_8859_15:1998, iso8859_15,</td><td width="24%">table / iso_8859_15</td><td width="30%">ISO 8859-15:1998 - Latin 9, West Europe, successor of Latin 1.</td></tr>
+<tr><td width="20%">iso_8859_2</td><td width="26%">iso8859_2, iso88592, iso_8859_2:1987, iso_ir_101, latin2, l2, csisolatin2</td><td width="24%">table / iso_8859_2</td><td width="30%">ISO 8859-2:1987 - Latin 2, East European.</td></tr>
+<tr><td width="20%">iso_8859_3</td><td width="26%">iso_8859_3:1988, iso_ir_109, iso8859_3, latin3, l3, csisolatin3, iso88593</td><td width="24%">table / iso_8859_3</td><td width="30%">ISO 8859-3:1988 - Latin 3, South European.</td></tr>
+<tr><td width="20%">iso_8859_4</td><td width="26%">iso8859_4, iso88594, iso_8859_4:1988, iso_ir_110, latin4, l4, csisolatin4</td><td width="24%">table / iso_8859_4</td><td width="30%">ISO 8859-4:1988 - Latin 4, North European.</td></tr>
+<tr><td width="20%">iso_8859_5</td><td width="26%">iso8859_5, iso88595, iso_8859_5:1988, iso_ir_144, cyrillic, csisolatincyrillic</td><td width="24%">table / iso_8859_5</td><td width="30%">ISO 8859-5:1988 - Cyrillic.</td></tr>
+<tr><td width="20%">iso_8859_6</td><td width="26%">iso_8859_6:1987, iso_ir_127, iso8859_6, ecma_114, asmo_708, arabic, csisolatinarabic, iso88596</td><td width="24%">table / iso_8859_6</td><td width="30%">ISO i8859-6:1987 - Arabic.</td></tr>
+<tr><td width="20%">iso_8859_7</td><td width="26%">iso_8859_7:1987, iso_ir_126, iso8859_7, elot_928, ecma_118, greek, greek8, csisolatingreek, iso88597</td><td width="24%">table / iso_8859_7</td><td width="30%">ISO 8859-7:1987 - Greek.</td></tr>
+<tr><td width="20%">iso_8859_8</td><td width="26%">iso_8859_8:1988, iso_ir_138, iso8859_8, hebrew, csisolatinhebrew, iso88598</td><td width="24%">table / iso_8859_8</td><td width="30%">ISO 8859-8:1988 - Hebrew.</td></tr>
+<tr><td width="20%">iso_8859_9</td><td width="26%">iso_8859_9:1989, iso_ir_148, iso8859_9, latin5, l5, csisolatin5, iso88599</td><td width="24%">table / iso_8859_9</td><td width="30%">ISO 8859-9:1989 - Latin 5, Turkish.</td></tr>
+<tr><td width="20%">iso_ir_111</td><td width="26%">ecma_cyrillic, koi8_e, koi8e, csiso111ecmacyrillic</td><td width="24%">table / iso_ir_111</td><td width="30%">ISO IR 111/ECMA Cyrillic.</td></tr>
+<tr><td width="20%">koi8_r</td><td width="26%">cskoi8r, koi8r, koi8</td><td width="24%">table / koi8_r</td><td width="30%">RFC 1489 Cyrillic.</td></tr>
+<tr><td width="20%">koi8_ru</td><td width="26%">koi8ru</td><td width="24%">table / koi8_ru</td><td width="30%">The obsolete Ukrainian.</td></tr>
+<tr><td width="20%">koi8_u</td><td width="26%">koi8u</td><td width="24%">table / koi8_u</td><td width="30%">RFC 2319 Ukrainian.</td></tr>
+<tr><td width="20%">koi8_uni</td><td width="26%">koi8uni</td><td width="24%">table / koi8_uni</td><td width="30%">KOI8 Unified.</td></tr>
+<tr><td width="20%">ucs_2</td><td width="26%">ucs2, iso_10646_ucs_2, iso10646_ucs_2, iso_10646_ucs2, iso10646_ucs2, iso10646ucs2, csUnicode</td><td width="24%">ucs_2 / (UCS)</td><td width="30%">ISO-10646-UCS-2. Big Endian, NBSP is always interpreted as NBSP (BOM isn&rsquo;t supported).</td></tr>
+<tr><td width="20%">ucs_2_internal</td><td width="26%">ucs2_internal, ucs_2internal, ucs2internal</td><td width="24%">ucs_2_internal / (UCS)</td><td width="30%">ISO-10646-UCS-2 in system byte order.
+NBSP is always interpreted as NBSP (BOM isn&rsquo;t supported).</td></tr>
+<tr><td width="20%">ucs_2be</td><td width="26%">ucs2be</td><td width="24%">ucs_2 / (UCS)</td><td width="30%">Big Endian version of ISO-10646-UCS-2 (in fact, equivalent to ucs_2).
+Big Endian, NBSP is always interpreted as NBSP (BOM isn&rsquo;t supported).</td></tr>
+<tr><td width="20%">ucs_2le</td><td width="26%">ucs2le</td><td width="24%">ucs_2 / (UCS)</td><td width="30%">Little Endian version of ISO-10646-UCS-2.
+Little Endian, NBSP is always interpreted as NBSP (BOM isn&rsquo;t supported).</td></tr>
+<tr><td width="20%">ucs_4</td><td width="26%">ucs4, iso_10646_ucs_4, iso10646_ucs_4, iso_10646_ucs4, iso10646_ucs4, iso10646ucs4</td><td width="24%">ucs_4 / (UCS)</td><td width="30%">ISO-10646-UCS-4. Big Endian, NBSP is always interpreted as NBSP (BOM isn&rsquo;t supported).</td></tr>
+<tr><td width="20%">ucs_4_internal</td><td width="26%">ucs4_internal, ucs_4internal, ucs4internal</td><td width="24%">ucs_4_internal / (UCS)</td><td width="30%">ISO-10646-UCS-4 in system byte order.
+NBSP is always interpreted as NBSP (BOM isn&rsquo;t supported).</td></tr>
+<tr><td width="20%">ucs_4be</td><td width="26%">ucs4be</td><td width="24%">ucs_4 / (UCS)</td><td width="30%">Big Endian version of ISO-10646-UCS-4 (in fact, equivalent to ucs_4).
+Big Endian, NBSP is always interpreted as NBSP (BOM isn&rsquo;t supported).</td></tr>
+<tr><td width="20%">ucs_4le</td><td width="26%">ucs4le</td><td width="24%">ucs_4 / (UCS)</td><td width="30%">Little Endian version of ISO-10646-UCS-4.
+Little Endian, NBSP is always interpreted as NBSP (BOM isn&rsquo;t supported).</td></tr>
+<tr><td width="20%">us_ascii</td><td width="26%">ansi_x3.4_1968, ansi_x3.4_1986, iso_646.irv:1991, ascii, iso646_us, us, ibm367, cp367, csascii</td><td width="24%">us_ascii / (ASCII)</td><td width="30%">7-bit ASCII.</td></tr>
+<tr><td width="20%">utf_16</td><td width="26%">utf16</td><td width="24%">utf_16 / (UCS)</td><td width="30%">RFC 2781 UTF-16. The very first NBSP code in stream is interpreted as BOM.</td></tr>
+<tr><td width="20%">utf_16be</td><td width="26%">utf16be</td><td width="24%">utf_16 / (UCS)</td><td width="30%">Big Endian version of RFC 2781 UTF-16.
+NBSP is always interpreted as NBSP (BOM isn&rsquo;t supported).</td></tr>
+<tr><td width="20%">utf_16le</td><td width="26%">utf16le</td><td width="24%">utf_16 / (UCS)</td><td width="30%">Little Endian version of RFC 2781 UTF-16.
+NBSP is always interpreted as NBSP (BOM isn&rsquo;t supported).</td></tr>
+<tr><td width="20%">utf_8</td><td width="26%">utf8</td><td width="24%">utf_8 / (UCS)</td><td width="30%">RFC 3629 UTF-8.</td></tr>
+<tr><td width="20%">win_1250</td><td width="26%">cp1250</td><td width="24%"></td><td width="30%">Win-1250 Croatian.</td></tr>
+<tr><td width="20%">win_1251</td><td width="26%">cp1251</td><td width="24%">table / win_1251</td><td width="30%">Win-1251 - Cyrillic.</td></tr>
+<tr><td width="20%">win_1252</td><td width="26%">cp1252</td><td width="24%">table / win_1252</td><td width="30%">Win-1252 - Latin 1.</td></tr>
+<tr><td width="20%">win_1253</td><td width="26%">cp1253</td><td width="24%">table / win_1253</td><td width="30%">Win-1253 - Greek.</td></tr>
+<tr><td width="20%">win_1254</td><td width="26%">cp1254</td><td width="24%">table / win_1254</td><td width="30%">Win-1254 - Turkish.</td></tr>
+<tr><td width="20%">win_1255</td><td width="26%">cp1255</td><td width="24%">table / win_1255</td><td width="30%">Win-1255 - Hebrew.</td></tr>
+<tr><td width="20%">win_1256</td><td width="26%">cp1256</td><td width="24%">table / win_1256</td><td width="30%">Win-1256 - Arabic.</td></tr>
+<tr><td width="20%">win_1257</td><td width="26%">cp1257</td><td width="24%">table / win_1257</td><td width="30%">Win-1257 - Baltic.</td></tr>
+<tr><td width="20%">win_1258</td><td width="26%">cp1258</td><td width="24%">table / win_1258</td><td width="30%">Win-1258 - Vietnamese7 that supports Cyrillic.</td></tr>
+</table>
+
+
+
+
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="iconv-design-decisions.html#iconv-design-decisions" accesskey="n" rel="next">iconv design decisions</a>, Previous: <a href="Introduction-to-iconv.html#Introduction-to-iconv" accesskey="p" rel="prev">Introduction to iconv</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

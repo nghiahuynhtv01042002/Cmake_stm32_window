@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>CES converters (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="CES converters (The Red Hat newlib C Library)">
+<meta name="keywords" content="CES converters (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Encoding-conversions.html#Encoding-conversions" rel="up" title="Encoding conversions">
+<link href="The-encodings-description-file.html#The-encodings-description-file" rel="next" title="The encodings description file">
+<link href="CCS-tables.html#CCS-tables" rel="prev" title="CCS tables">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="CES-converters"></a>
+<div class="header">
+<p>
+Next: <a href="The-encodings-description-file.html#The-encodings-description-file" accesskey="n" rel="next">The encodings description file</a>, Previous: <a href="CCS-tables.html#CCS-tables" accesskey="p" rel="prev">CCS tables</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="CES-converters-1"></a>
+<h3 class="section">15.8 CES converters</h3>
+<a name="index-PCS"></a>
+<br>
+<p>Similar to the CCS tables, CES converters are also split into &quot;from UCS&quot;
+and &quot;to UCS&quot; parts. Depending on the iconv library configuration, these
+parts are enabled or disabled. 
+</p>
+<br>
+<p>The following it the list of CES converters which are currently present
+in the Newlib iconv library.
+</p>
+<ul>
+<li> <em>euc</em> - supports the <em>euc_jp</em>, <em>euc_kr</em> and <em>euc_tw</em>
+encodings. The <em>euc</em> CES converter uses the <em>table</em> and the
+<em>us_ascii</em> CES converters.
+
+</li><li> <em>table</em> - this CES converter corresponds to &quot;null&quot; and just performs 
+tables-based conversion using 8- and 16-bit CCS tables. This converter
+is also used by any other CES converter which needs the CCS table-based
+conversions. The <em>table</em> converter is also responsible for .cct files
+loading.
+
+</li><li> <em>table_pcs</em> - this is the wrapper over the <em>table</em> converter
+which is intended for 16-bit encodings which also use the <em>Portable
+Character Set</em> (<em>PCS</em>) which is the same as the <em>US-ASCII</em>.
+This means, that if the first byte the CCS code is in range of [0x00-0x7f],
+this is the 7-bit PCS code. Else, this is the 16-bit CCS code. Of course,
+the 16-bit codes must not contain bytes in the range of [0x00-0x7f].
+The <em>big5</em> encoding uses the <em>table_pcs</em> CES converter and the
+<em>table_pcs</em> CES converter depends on the <em>table</em> CES converter.
+
+</li><li> <em>ucs_2</em> - intended for the <em>ucs_2</em>, <em>ucs_2be</em> and
+<em>ucs_2le</em> encodings support.
+
+</li><li> <em>ucs_4</em> - intended for the <em>ucs_4</em>, <em>ucs_4be</em> and
+<em>ucs_4le</em> encodings support.
+
+</li><li> <em>ucs_2_internal</em> - intended for the <em>ucs_2_internal</em> encoding support.
+
+</li><li> <em>ucs_4_internal</em> - intended for the <em>ucs_4_internal</em> encoding support.
+
+</li><li> <em>us_ascii</em> - intended for the <em>us_ascii</em> encoding support. In
+principle, the most natural way to support the <em>us_ascii</em> encoding
+is to define the <em>us_ascii</em> CCS and use the <em>table</em> CES
+converter. But for the optimization purposes, the specialized
+<em>us_ascii</em> CES converter was created.
+
+</li><li> <em>utf_16</em> - intended for the <em>utf_16</em>, <em>utf_16be</em> and
+<em>utf_16le</em> encodings support.
+
+</li><li> <em>utf_8</em> - intended for the <em>utf_8</em> encoding support.
+</li></ul>
+
+
+
+
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="The-encodings-description-file.html#The-encodings-description-file" accesskey="n" rel="next">The encodings description file</a>, Previous: <a href="CCS-tables.html#CCS-tables" accesskey="p" rel="prev">CCS tables</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

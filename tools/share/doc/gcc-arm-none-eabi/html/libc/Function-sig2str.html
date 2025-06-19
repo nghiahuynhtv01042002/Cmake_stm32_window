@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Function sig2str (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="Function sig2str (The Red Hat newlib C Library)">
+<meta name="keywords" content="Function sig2str (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Signals.html#Signals" rel="up" title="Signals">
+<link href="Function-signal.html#Function-signal" rel="next" title="Function signal">
+<link href="Function-raise.html#Function-raise" rel="prev" title="Function raise">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Function-sig2str"></a>
+<div class="header">
+<p>
+Next: <a href="Function-signal.html#Function-signal" accesskey="n" rel="next">Function signal</a>, Previous: <a href="Function-raise.html#Function-raise" accesskey="p" rel="prev">Function raise</a>, Up: <a href="Signals.html#Signals" accesskey="u" rel="up">Signals</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="sig2str_002c-str2sig_002d_002d_002dTranslate-between-signal-number-and-name"></a>
+<h3 class="section">9.3 <code>sig2str</code>, <code>str2sig</code>&mdash;Translate between signal number and name</h3>
+<a name="index-sig2str"></a>
+<a name="index-str2sig"></a>
+<p><strong>Synopsis</strong>
+</p><div class="example">
+<pre class="example">#include &lt;signal.h&gt;
+int sig2str(int <var>signum</var>, char *<var>str</var>);
+
+int str2sig(const char *restrict <var>str</var>, int *restrict <var>pnum</var>);
+
+</pre></div>
+<p><strong>Description</strong><br>
+The <code>sig2str</code> function translates the signal number specified by <var>signum</var> to
+a signal name and stores this string in the location specified by <var>str</var>. The
+application must ensure that <var>str</var> points to a location that can store the
+string including the terminating null byte. The symbolic constant
+<var>SIG2STR_MAX</var> defined in &lsquo;<code>signal.h</code>&rsquo; gives the maximum number of bytes
+required.
+</p>
+<p>The <code>str2sig</code> function translates the signal name in the string pointed to by
+<var>str</var> to a signal number and stores this value in the location specified by
+<var>pnum</var>.
+</p>
+<br>
+<p><strong>Returns</strong><br>
+<code>sig2str</code> returns <code>0</code> if <var>signum</var>&gt; is a valid, supported signal number.
+Otherwise, it returns <code>-1</code>.
+</p>
+<p><code>str2sig</code> returns <code>0</code> if it stores a value in the location pointed to by
+<var>pnum</var>. Otherwise it returns <code>-1</code>.
+</p>
+<br>
+
+
+
+
+</body>
+</html>

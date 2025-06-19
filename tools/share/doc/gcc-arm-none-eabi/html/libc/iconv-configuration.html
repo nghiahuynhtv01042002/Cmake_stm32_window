@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>iconv configuration (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="iconv configuration (The Red Hat newlib C Library)">
+<meta name="keywords" content="iconv configuration (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Encoding-conversions.html#Encoding-conversions" rel="up" title="Encoding conversions">
+<link href="Encoding-names.html#Encoding-names" rel="next" title="Encoding names">
+<link href="iconv-design-decisions.html#iconv-design-decisions" rel="prev" title="iconv design decisions">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="iconv-configuration"></a>
+<div class="header">
+<p>
+Next: <a href="Encoding-names.html#Encoding-names" accesskey="n" rel="next">Encoding names</a>, Previous: <a href="iconv-design-decisions.html#iconv-design-decisions" accesskey="p" rel="prev">iconv design decisions</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="iconv-configuration-1"></a>
+<h3 class="section">15.5 iconv configuration</h3>
+<a name="index-iconv-configuration"></a>
+<a name="index-_002d_002denable_002dnewlib_002diconv_002dencodings"></a>
+<a name="index-_002d_002denable_002dnewlib_002diconv_002dfrom_002dencodings"></a>
+<a name="index-_002d_002denable_002dnewlib_002diconv_002dto_002dencodings"></a>
+<a name="index-_002d_002denable_002dnewlib_002diconv_002dexternal_002dccs"></a>
+<a name="index-NLSPATH"></a>
+<br>
+<p>To enable an encoding, the <em>&ndash;enable-newlib-iconv-encodings</em> configure
+script option should be used. This option accepts a comma-separated list
+of <em>encodings</em> that should be enabled. The option enables each encoding in both
+(&quot;to&quot; and &quot;from&quot;) directions.
+</p>
+<br>
+<p>The <samp>--enable-newlib-iconv-from-encodings</samp> configure script option enables
+&quot;from&quot; support for each encoding that was passed to it.
+</p>
+<br>
+<p>The <samp>--enable-newlib-iconv-to-encodings</samp> configure script option enables
+&quot;to&quot; support for each encoding that was passed to it.
+</p>
+<br>
+<p>Example: if user plans only the &quot;KOI8-R -&gt; UTF-8&quot;, &quot;UTF-8 -&gt; ISO-8859-5&quot; and
+&quot;KOI8-R -&gt; UCS-2&quot; conversions, the most optimal way (minimal iconv
+code and data will be linked) is to configure Newlib with the following
+options:
+<br>
+<code>--enable-newlib-iconv-encodings=UTF-8
+--enable-newlib-iconv-from-encodings=KOI8-R
+--enable-newlib-iconv-to-encodings=UCS-2,ISO-8859-5</code>
+<br>
+which is the same as
+<br>
+<code>--enable-newlib-iconv-from-encodings=KOI8-R,UTF-8
+--enable-newlib-iconv-to-encodings=UCS-2,ISO-8859-5,UTF-8</code>
+<br>
+User may also just use the
+<br>
+<code>--enable-newlib-iconv-encodings=KOI8-R,ISO-8859-5,UTF-8,UCS-2</code>
+<br>
+configure script option, but it isn&rsquo;t so optimal since there will be
+some unneeded data and code.
+</p>
+<br>
+<p>The <samp>--enable-newlib-iconv-external-ccs</samp> option enables iconv&rsquo;s
+capabilities to work with the external CCS files.
+</p>
+<br>
+<p>The <samp>--enable-target-optspace</samp> Newlib configure script option also affects
+the iconv library. If this option is present, the library uses the size
+optimized CCS tables. This means, that only the size-optimized CCS
+tables will be linked or, if the
+<samp>--enable-newlib-iconv-external-ccs</samp> configure script option was used,
+the iconv library will load the size-optimized tables. If the
+<samp>--enable-target-optspace</samp>configure script option is disabled,
+the speed-optimized CCS tables are used.
+</p>
+<br>
+<p>Note: .cct files are searched by iconv_open in the $NLSPATH/iconv_data/ directory.
+Thus, the NLSPATH environment variable should be set.
+</p>
+
+
+
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Encoding-names.html#Encoding-names" accesskey="n" rel="next">Encoding names</a>, Previous: <a href="iconv-design-decisions.html#iconv-design-decisions" accesskey="p" rel="prev">iconv design decisions</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

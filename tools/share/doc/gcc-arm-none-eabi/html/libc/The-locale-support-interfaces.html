@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>The locale support interfaces (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="The locale support interfaces (The Red Hat newlib C Library)">
+<meta name="keywords" content="The locale support interfaces (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Encoding-conversions.html#Encoding-conversions" rel="up" title="Encoding conversions">
+<link href="Contact.html#Contact" rel="next" title="Contact">
+<link href="How-to-add-new-encoding.html#How-to-add-new-encoding" rel="prev" title="How to add new encoding">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="The-locale-support-interfaces"></a>
+<div class="header">
+<p>
+Next: <a href="Contact.html#Contact" accesskey="n" rel="next">Contact</a>, Previous: <a href="How-to-add-new-encoding.html#How-to-add-new-encoding" accesskey="p" rel="prev">How to add new encoding</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="The-locale-support-interfaces-1"></a>
+<h3 class="section">15.11 The locale support interfaces</h3>
+<br>
+<p>The newlib iconv library also has some interface functions (besides the
+<code>iconv</code>, <code>iconv_open</code> and <code>iconv_close</code> interfaces) which
+are intended for the Locale subsystem. All the locale-related code is
+placed in the <em>lib/iconvnls.c</em> file.
+</p>
+<br>
+<p>The following is the description of the locale-related interfaces:
+</p>
+<ul>
+<li> <code>_iconv_nls_open</code> - opens two iconv descriptors for &quot;CCS -&gt;
+wchar_t&quot; and &quot;wchar_t -&gt; CCS&quot; conversions. The normalized CCS name is
+passed in the function parameters. The <em>wchar_t</em> characters encoding is
+either ucs_2_internal or ucs_4_internal depending on size of
+<em>wchar_t</em>.
+
+</li><li> <code>_iconv_nls_conv</code> - the function is similar to the <code>iconv</code>
+functions, but if there is no character in the output encoding which
+corresponds to the character in the input encoding, the default
+conversion isn&rsquo;t performed (the <code>iconv</code> function sets such output
+characters to the <kbd>?</kbd> symbol and this is the behavior, which is
+specified in SUSv3).
+
+</li><li> <code>_iconv_nls_get_state</code> - returns the current encoding&rsquo;s shift state
+(the <code>mbstate_t</code> object).
+
+</li><li> <code>_iconv_nls_set_state</code> sets the current encoding&rsquo;s shift state (the
+<code>mbstate_t</code> object).
+
+</li><li> <code>_iconv_nls_is_stateful</code> - checks whether the encoding is stateful
+or stateless.
+
+</li><li> <code>_iconv_nls_get_mb_cur_max</code> - returns the maximum length (the
+maximum bytes number) of the encoding&rsquo;s characters.
+</li></ul>
+
+
+
+
+
+
+
+</body>
+</html>

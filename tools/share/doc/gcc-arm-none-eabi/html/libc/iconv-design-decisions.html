@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>iconv design decisions (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="iconv design decisions (The Red Hat newlib C Library)">
+<meta name="keywords" content="iconv design decisions (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Encoding-conversions.html#Encoding-conversions" rel="up" title="Encoding conversions">
+<link href="iconv-configuration.html#iconv-configuration" rel="next" title="iconv configuration">
+<link href="Supported-encodings.html#Supported-encodings" rel="prev" title="Supported encodings">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="iconv-design-decisions"></a>
+<div class="header">
+<p>
+Next: <a href="iconv-configuration.html#iconv-configuration" accesskey="n" rel="next">iconv configuration</a>, Previous: <a href="Supported-encodings.html#Supported-encodings" accesskey="p" rel="prev">Supported encodings</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="iconv-design-decisions-1"></a>
+<h3 class="section">15.4 iconv design decisions</h3>
+<a name="index-CCS-table"></a>
+<a name="index-CES-converter"></a>
+<a name="index-Speed_002doptimized-tables"></a>
+<a name="index-Size_002doptimized-tables"></a>
+<br>
+<p>The first iconv library design issue arises when considering the
+following two design approaches:
+</p>
+<ol>
+<li> Have modules which implement conversion from the encoding A to the encoding B
+and vice versa i.e., one conversion module relates to any two encodings.
+</li><li> Have modules which implement conversion from the encoding A to the fixed
+encoding C and vice versa i.e., one conversion module relates to any
+one encoding A and one fixed encoding C. In this case, to convert from
+the encoding A to the encoding B, two modules are needed (in order to convert
+from A to C and then from C to B).
+</li></ol>
+
+<br>
+<p>It&rsquo;s obvious, that we have tradeoff between commonality/flexibility and
+efficiency: the first method is more efficient since it converts
+directly; however, it isn&rsquo;t so flexible since for each
+encoding pair a distinct module is needed.
+</p>
+<br>
+<p>The Newlib iconv model uses the second method and always converts through the 32-bit
+UCS but its design also allows one to write specialized conversion
+modules if the conversion speed is critical.
+</p>
+<br>
+<p>The second design issue is how to break down (decompose) encodings.
+The Newlib iconv library uses the fact that any encoding may be
+considered as one or more CCS plus a CES. It also decomposes its
+conversion modules on <em>CES converter</em> plus one or more <em>CCS
+tables</em>. CCS tables map CCS to UCS and vice versa; the CES converters
+map CCS to the encoding and vice versa.
+</p>
+<br>
+<p>As the example, let&rsquo;s consider the conversion from the big5 encoding to
+the EUC-TW encoding. The big5 encoding may be decomposed to the ASCII and BIG5
+CCS-es plus the BIG5 CES. EUC-TW may be decomposed on the CNS11643_PLANE1, CNS11643_PLANE2,
+and CNS11643_PLANE14 CCS-es plus the EUC CES.
+</p>
+<br>
+<p>The euc_jp -&gt; big5 conversion is performed as follows:
+</p>
+<ol>
+<li> The EUC converter performs the EUC-TW encoding to the corresponding CCS-es
+transformation (CNS11643_PLANE1, CNS11643_PLANE2 and CNS11643_PLANE14
+CCS-es);
+</li><li> The obtained CCS codes are transformed to the UCS codes using the CNS11643_PLANE1,
+CNS11643_PLANE2 and CNS11643_PLANE14 CCS tables;
+</li><li> The resulting UCS codes are transformed to the ASCII and BIG5 codes using
+the corresponding CCS tables;
+</li><li> The obtained CCS codes are transformed to the big5 encoding using the corresponding
+CES converter.
+</li></ol>
+
+<br>
+<p>Analogously, the backward conversion is performed as follows:
+</p>
+<ol>
+<li> The BIG5 converter performs the big5 encoding to the corresponding CCS-es transformation
+(the ASCII and BIG5 CCS-es);
+</li><li> The obtained CCS codes are transformed to the UCS codes using the ASCII and BIG5 CCS tables;
+</li><li> The resulting UCS codes are transformed to the ASCII and BIG5 codes using
+the corresponding CCS tables;
+</li><li> The obtained CCS codes are transformed to the EUC-TW encoding using the corresponding
+CES converter.
+</li></ol>
+
+<br>
+<p>Note, the above is just an example and real names (which are implemented
+in the Newlib iconv) of the CES converters and the CCS tables are slightly different.
+</p>
+<br>
+<p>The third design issue also relates to flexibility. Obviously, it isn&rsquo;t
+desirable to always link all the CES converters and the CCS tables to the library
+but instead, we want to be able to load the needed converters and tables
+dynamically on demand. This isn&rsquo;t a problem on &quot;big&quot; machines such as
+a PC, but it may be very problematical within &quot;small&quot; embedded systems.
+</p>
+<br>
+<p>Since the CCS tables are just data, it is possible to load them
+dynamically from external files.  The CES converters, on the other hand
+are algorithms with some code so a dynamic library loading 
+capability is required.
+</p>
+<br>
+<p>Apart from possible restrictions applied by embedded systems (small
+RAM for example), Newlib itself has no dynamic library support and
+therefore, all the CES converters which will ever be used must be linked into
+the library.   However, loading of the dynamic CCS tables is possible and is
+implemented in the Newlib iconv library.  It may be enabled via the Newlib
+configure script options.
+</p>
+<br>
+<p>The next design issue is fine-tuning the iconv library
+configuration.  One important ability is for iconv to not link all it&rsquo;s
+converters and tables (if dynamic loading is not enabled) but instead,
+enable only those encodings which are specified at configuration
+time (see the section about the configure script options).
+</p>
+<br>
+<p>In addition, the Newlib iconv library configure options distinguish between
+conversion directions. This means that not only are supported encodings
+selectable, the conversion direction is as well. For example, if user wants
+the configuration which allows conversions from UTF-8 to UTF-16 and
+doesn&rsquo;t plan using the &quot;UTF-16 to UTF-8&quot; conversions, he or she can 
+enable only
+this conversion direction (i.e., no &quot;UTF-16 -&gt; UTF-8&quot;-related code will
+be included) thus, saving some memory (note, that such technique allows to
+exclude one half of a CCS table from linking which may be big enough).
+</p>
+<br>
+<p>One more design aspect are the speed- and size- optimized tables. Users can
+select between them using configure script options. The
+speed-optimized CCS tables are the same as the size-optimized ones in
+case of 8-bit CCS (e.g.m KOI8-R), but for 16-bit CCS-es the size-optimized
+CCS tables may be 1.5 to 2 times less then the speed-optimized ones. On the
+other hand, conversion with speed tables is several times faster.
+</p>
+<br>
+<p>Its worth to stress that the new encoding support can&rsquo;t be
+dynamically added into an already compiled Newlib library, even if it
+needs only an additional CCS table and iconv is configured to use
+the external files with CCS tables (this isn&rsquo;t the fundamental restriction
+and the possibility to add new Table-based encoding support dynamically, by
+means of just adding new .cct file, may be easily added).
+</p>
+<br>
+<p>Theoretically, the compiled-in CCS tables should be more appropriate for
+embedded systems than dynamically loaded CCS tables.  This is because the compiled-in tables are read-only and can be placed in ROM
+whereas dynamic loading requires RAM.  Moreover, in the current iconv
+implementation, a distinct copy of the dynamic CCS file is loaded for each opened iconv descriptor even in case of the same encoding.
+This means, for example, that if two iconv descriptors for
+&quot;KOI8-R -&gt; UCS-4BE&quot; and &quot;KOI8-R -&gt; UTF-16BE&quot; are opened, two copies of
+koi8-r .cct file will be loaded (actually, iconv loads only the needed part
+of these files).  On the other hand, in the case of compiled-in CCS tables, there will always be only one copy.
+</p>
+<hr>
+<div class="header">
+<p>
+Next: <a href="iconv-configuration.html#iconv-configuration" accesskey="n" rel="next">iconv configuration</a>, Previous: <a href="Supported-encodings.html#Supported-encodings" accesskey="p" rel="prev">Supported encodings</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

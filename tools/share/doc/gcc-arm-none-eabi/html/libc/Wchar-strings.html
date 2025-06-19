@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Wchar strings (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="Wchar strings (The Red Hat newlib C Library)">
+<meta name="keywords" content="Wchar strings (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="Function-wmemchr.html#Function-wmemchr" rel="next" title="Function wmemchr">
+<link href="Function-wcsncasecmp.html#Function-wcsncasecmp" rel="prev" title="Function wcsncasecmp">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Wchar-strings"></a>
+<div class="header">
+<p>
+Next: <a href="Signals.html#Signals" accesskey="n" rel="next">Signals</a>, Previous: <a href="Strings.html#Strings" accesskey="p" rel="prev">Strings</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Wide-Character-Strings-_0028wchar_002eh_0029"></a>
+<h2 class="chapter">8 Wide Character Strings (<samp>wchar.h</samp>)</h2>
+
+<p>This chapter describes wide-character string-handling functions and
+managing areas of memory containing wide characters.  The corresponding 
+declarations are in <samp>wchar.h</samp>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Function-wmemchr.html#Function-wmemchr" accesskey="1">Function wmemchr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Find wide character in memory
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wmemcmp.html#Function-wmemcmp" accesskey="2">Function wmemcmp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Compare two wide-character memory areas
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wmemcpy.html#Function-wmemcpy" accesskey="3">Function wmemcpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copy wide-character memory regions
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wmemmove.html#Function-wmemmove" accesskey="4">Function wmemmove</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Move possibly overlapping wide-character memory
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wmempcpy.html#Function-wmempcpy" accesskey="5">Function wmempcpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copy wide-character memory regions and locate end
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wmemset.html#Function-wmemset" accesskey="6">Function wmemset</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Set an area of memory to a specified wide character
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcscat.html#Function-wcscat" accesskey="7">Function wcscat</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Concatenate wide-character strings
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcschr.html#Function-wcschr" accesskey="8">Function wcschr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Search for wide character in string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcscmp.html#Function-wcscmp" accesskey="9">Function wcscmp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Wide-character string compare
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcscoll.html#Function-wcscoll">Function wcscoll</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Locale-specific wide-character string compare
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcscpy.html#Function-wcscpy">Function wcscpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copy wide-character string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcpcpy.html#Function-wcpcpy">Function wcpcpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copy a wide-character string returning a pointer to its end
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcscspn.html#Function-wcscspn">Function wcscspn</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Count wide characters not in string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcsftime.html#Function-wcsftime">Function wcsftime</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Convert date and time to a formatted wide-character string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcslcat.html#Function-wcslcat">Function wcslcat</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Concatenate wide-character strings to specified length
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcslcpy.html#Function-wcslcpy">Function wcslcpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copy wide-character string to specified length
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcslen.html#Function-wcslen">Function wcslen</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Wide-character string length
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcsncat.html#Function-wcsncat">Function wcsncat</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Concatenate wide-character strings
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcsncmp.html#Function-wcsncmp">Function wcsncmp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Wide-character string compare
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcsncpy.html#Function-wcsncpy">Function wcsncpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Counted copy wide-character string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcpncpy.html#Function-wcpncpy">Function wcpncpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copy part of a wide-character string returning a pointer to its end
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcsnlen.html#Function-wcsnlen">Function wcsnlen</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Wide-character string length with maximum limit
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcspbrk.html#Function-wcspbrk">Function wcspbrk</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Find wide characters in string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcsrchr.html#Function-wcsrchr">Function wcsrchr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Reverse search for wide character in string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcsspn.html#Function-wcsspn">Function wcsspn</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Find initial match in wide-character string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcsstr.html#Function-wcsstr">Function wcsstr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Find wide-character string segment
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcstok.html#Function-wcstok">Function wcstok</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Tokenize wide-character string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcswidth.html#Function-wcswidth">Function wcswidth</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Number of column positions of a wide-character string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcsxfrm.html#Function-wcsxfrm">Function wcsxfrm</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Locale-specific wide-character string transformation
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcwidth.html#Function-wcwidth">Function wcwidth</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Number of column positions of a wide-character code
+</td></tr>
+</table>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Signals.html#Signals" accesskey="n" rel="next">Signals</a>, Previous: <a href="Strings.html#Strings" accesskey="p" rel="prev">Strings</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>CCS tables (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="CCS tables (The Red Hat newlib C Library)">
+<meta name="keywords" content="CCS tables (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Encoding-conversions.html#Encoding-conversions" rel="up" title="Encoding conversions">
+<link href="CES-converters.html#CES-converters" rel="next" title="CES converters">
+<link href="Encoding-names.html#Encoding-names" rel="prev" title="Encoding names">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="CCS-tables"></a>
+<div class="header">
+<p>
+Next: <a href="CES-converters.html#CES-converters" accesskey="n" rel="next">CES converters</a>, Previous: <a href="Encoding-names.html#Encoding-names" accesskey="p" rel="prev">Encoding names</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="CCS-tables-1"></a>
+<h3 class="section">15.7 CCS tables</h3>
+<a name="index-Size_002doptimized-CCS-table"></a>
+<a name="index-Speed_002doptimized-CCS-table"></a>
+<a name="index-mktbl_002epl-Perl-script"></a>
+<a name="index-_002ecct-files"></a>
+<a name="index-The-CCT-tables-source-files"></a>
+<a name="index-CCS-source-files"></a>
+<br>
+<p>The iconv library stores files with CCS tables in the the <em>ccs/</em>
+subdirectory. The CCS tables for any CCS may be kept in two forms - in the binary form
+(<em>.cct files</em>, see the <em>ccs/binary/</em> subdirectory) and in form
+of compilable .c source files. The .cct files are only used when the
+<samp>--enable-newlib-iconv-external-ccs</samp> configure script option is enabled.
+The .c files are linked to the Newlib library if the corresponding
+encoding is enabled.
+</p>
+<br>
+<p>As stated earlier, the Newlib iconv library performs all
+conversions through the 32-bit UCS, but the codes which are used
+in most CCS-es, fit into the first 16-bit subset of the 32-bit UCS set.
+Thus, in order to make the CCS tables more compact, the 16-bit UCS-2 is
+used instead of the 32-bit UCS-4.
+</p>
+<br>
+<p>CCS tables may be 8- or 16-bit wide. 8-bit CCS tables map 8-bit CCS to
+16-bit UCS-2 and vice versa while 16-bit CCS tables map
+16-bit CCS to 16-bit UCS-2 and vice versa.
+8-bit tables are small (in size) while 16-bit tables may be big enough.
+Because of this, 16-bit CCS tables may be
+either speed- or size-optimized. Size-optimized CCS tables are
+smaller then speed-optimized ones, but the conversion process is
+slower if the size-optimized CCS tables are used. 8-bit CCS tables have only
+size-optimized variant.
+</p>
+<p>Each CCS table (both speed- and size-optimized) consists of
+<em>from_ucs</em> and <em>to_ucs</em> subtables. &quot;from_ucs&quot; subtable maps
+UCS-2 codes to CCS codes, while &quot;to_ucs&quot; subtable maps CCS codes to
+UCS-2 codes.
+</p>
+<br>
+<p>Almost all 16-bit CCS tables contain less then 0xFFFF codes and
+a lot of gaps exist.
+</p>
+<a name="Speed_002doptimized-tables-format"></a>
+<h4 class="subsection">15.7.1 Speed-optimized tables format</h4>
+<br>
+<p>In case of 8-bit speed-optimized CCS tables the &quot;to_ucs&quot; subtables format is
+trivial - it is just the array of 256 16-bit UCS codes. Therefore, an
+UCS-2 code <em>Y</em> corresponding to a <em>X</em> CCS code is calculates
+as <em>Y = to_ucs[X]</em>.
+</p>
+<br>
+<p>Obviously, the simplest way to create the &quot;from_ucs&quot; table or the
+16-bit &quot;to_ucs&quot; table is to use the huge 16-bit array like in case
+of the 8-bit &quot;to_ucs&quot; table. But almost all the 16-bit CCS tables contain
+less then 0xFFFF code maps and this fact may be exploited to reduce
+the size of the CCS tables.
+</p>
+<br>
+<p>In this chapter the &quot;UCS-2 -&gt; CCS&quot; 8-bit CCS table format is described. The
+16-bit &quot;CCS -&gt; UCS-2&quot; CCS table format is the same, except the mapping
+direction and the CCS bits number.
+</p>
+<br>
+<p>In case of the 8-bit speed-optimized table the &quot;from_ucs&quot; subtable
+corresponds the &quot;from_ucs&quot; array and has the following layout:
+</p>
+<br>
+<p>from_ucs array:
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+<br>
+0xFF mapping (2 bytes) (only for
+8-bit table).
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+<br>
+Heading block
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+<br>
+Block 1
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+<br>
+Block 2
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+<br>
+  ...
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+<br>
+Block N
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+</p>
+<br>
+<p>The 0x0000-0xFFFF 16-bit code range is divided to 256 code subranges. Each
+subrange is represented by an 256-element <em>block</em> (256 1-byte
+elements or 256 2-byte element in case of 16-bit CCS table) with
+elements which are equivalent to the CCS codes of this subrange.
+If the &quot;UCS-2 -&gt; CCS&quot; mapping has big enough gaps, some blocks will be
+absent and there will be less then 256 blocks.
+</p>
+<br>
+<p>Any element number <em>m</em> of <em>the heading block</em> (which contains
+256 2-byte elements) corresponds to the <em>m</em>-th 256-element subrange.
+If the subrange contains some codes, the value of the <em>m</em>-th element of
+the heading block contains the offset of the corresponding block in the
+&quot;from_ucs&quot; array. If there is no codes in the subrange, the heading
+block element contains 0xFFFF.
+</p>
+<br>
+<p>If there are some gaps in a block, the corresponding block elements have
+the 0xFF value. If there is an 0xFF code present in the CCS, it&rsquo;s mapping
+is defined in the first 2-byte element of the &quot;from_ucs&quot; array.
+</p>
+<br>
+<p>Having such a table format, the algorithm of searching the CCS code
+<em>X</em> which corresponds to the UCS-2 code <em>Y</em> is as follows.
+</p>
+<br>
+<ol>
+<li> If <em>Y</em> is equivalent to the value of the first 2-byte element
+of the &quot;from_ucs&quot; array, <em>X</em> is 0xFF. Else, continue to search.
+
+</li><li> Calculate the block number: <em>BlkN = (Y &amp; 0xFF00) &gt;&gt; 8</em>.
+
+</li><li> If the heading block element with number <em>BlkN</em> is 0xFFFF, there
+is no corresponding CCS code (error, wrong input data). Else, fetch the
+&quot;flom_ucs&quot; array index of the <em>BlkN</em>-th block.
+
+</li><li> Calculate the offset of the <em>X</em> code in its block: 
+<em>Xindex = Y &amp; 0xFF</em>
+
+</li><li> If the <em>Xindex</em>-th element of the block (which is equivalent to
+<em>from_ucs[BlkN+Xindex]</em>) value is 0xFF, there is no corresponding
+CCS code (error, wrong input data). Else, <em>X = from_ucs[BlkN+Xindex]</em>.
+</li></ol>
+
+<a name="Size_002doptimized-tables-format"></a>
+<h4 class="subsection">15.7.2 Size-optimized tables format</h4>
+<br>
+<p>As it is stated above, size-optimized tables exist only for 16-bit CCS-es.
+This is because there is too small difference between the speed-optimized
+and the size-optimized table sizes in case of 8-bit CCS-es.
+</p>
+<br>
+<p>Formats of the &quot;to_ucs&quot; and &quot;from_ucs&quot; subtables are equivalent in case of
+size-optimized tables.
+</p>
+<p>This sections describes the format of the &quot;UCS-2 -&gt; CCS&quot; size-optimized
+CCS table. The format of &quot;CCS -&gt; UCS-2&quot; table is the same.
+</p>
+<p>The idea of the size-optimized tables is to split the UCS-2 codes
+(&quot;from&quot; codes) on <em>ranges</em> (<em>range</em> is a number of consecutive UCS-2 codes).
+Then CCS codes (&quot;to&quot; codes) are stored only for the codes from these
+ranges. Distinct &quot;from&quot; codes, which have no range (<em>unranged codes</em>, are stored
+together with the corresponding &quot;to&quot; codes.
+</p>
+<br>
+<p>The following is the layout of the size-optimized table array:
+</p>
+<br>
+<p>size_arr array:
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+<br>
+Ranges number (2 bytes)
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+<br>
+Unranged codes number (2 bytes)
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+<br>
+Unranged codes array index (2 bytes)
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+<br>
+Ranges indexes (triads)
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+<br>
+Ranges
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+<br>
+Unranged codes array
+<br>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-
+</p>
+<br>
+<p>The <em>Unranged codes array index</em> <em>size_arr</em> section helps to find
+the offset of the needed range in the <em>size_arr</em> and has
+the following format (triads):
+<br>
+the first code in range, the last code in range, range offset.
+</p>
+<br>
+<p>The array of these triads is sorted by the firs element, therefore it is
+possible to quickly find the needed range index.
+</p>
+<br>
+<p>Each range has the corresponding sub-array containing the &quot;to&quot; codes. These
+sub-arrays are stored in the place marked as &quot;Ranges&quot; in the layout
+diagram. 
+</p>
+<br>
+<p>The &quot;Unranged codes array&quot; contains pairs (&quot;from&quot; code, &quot;to&quot; code&quot;) for
+each unranged code. The array of these pairs is sorted by &quot;from&quot; code
+values, therefore it is possible to find the needed pair quickly.
+</p>
+<br>
+<p>Note, that each range requires 6 bytes to form its index. If, for
+example, there are two ranges (1 - 5 and 9 - 10), and one unranged code
+(7), 12 bytes are needed for two range indexes and 4 bytes for the unranged
+code (total 16). But it is better to join both ranges as 1 - 10 and
+mark codes 6 and 8 as absent. In this case, only 6 additional bytes for the
+range index and 4 bytes to mark codes 6 and 8 as absent are needed
+(total 10 bytes). This optimization is done in the size-optimized tables.
+Thus, ranges may contain small gaps. The absent codes in ranges are marked
+as 0xFFFF.
+</p>
+<br>
+<p>Note, a pair of &quot;from&quot; codes is stored by means of unranged codes since
+the number of bytes which are needed to form the range is greater than
+the number of bytes to store two unranged codes (5 against 4).
+</p>
+<br>
+<p>The algorithm of searching of the CCS code
+<em>X</em> which corresponds to the UCS-2 code <em>Y</em> (input) in the &quot;UCS-2 -&gt;
+CCS&quot; size-optimized table is as follows.
+</p>
+<br>
+<ol>
+<li> Try to find the corresponding triad in the &quot;Unranged codes array
+index&quot;. Since we are searching in the sorted array, we can do it quickly
+(divide by 2, compare, etc).
+
+</li><li> If the triad is found, fetch the <em>X</em> code from the corresponding
+range array. If it is 0xFFFF, return an error.
+
+</li><li> If there is no corresponding triad, search the <em>X</em> code among the
+sorted unranged codes. Return error, if noting was found.
+</li></ol>
+
+<a name="g_t_002ecct-ant-_002ec-CCS-Table-files"></a>
+<h4 class="subsection">15.7.3 .cct ant .c CCS Table files</h4>
+<br>
+<p>The .c source files for 8-bit CCS tables have &quot;to_ucs&quot; and &quot;from_ucs&quot;
+speed-optimized tables. The .c source files for 16-bit CCS tables have
+&quot;to_ucs_speed&quot;, &quot;to_ucs_size&quot;, &quot;from_ucs_speed&quot; and &quot;from_ucs_size&quot;
+tables.
+</p>
+<br>
+<p>When .c files are compiled and used, all the 16-bit and 32-bit values
+have the native endian format (Big Endian for the BE systems and Little
+Endian for the LE systems) since they are compile for the system before
+they are used.
+</p>
+<br>
+<p>In case of .cct files, which are intended for dynamic CCS tables
+loading, the CCS tables are stored either in LE or BE format. Since the
+.cct files are generated by the &rsquo;mktbl.pl&rsquo; Perl script, it is possible
+to choose the endianess of the tables. It is also possible to store two
+copies (both LE and BE) of the CCS tables in one .cct file. The default
+.cct files (which come with the Newlib sources) have both LE and BE CCS
+tables. The Newlib iconv library automatically chooses the needed CCS tables
+(with appropriate endianess).
+</p>
+<br>
+<p>Note, the .cct files are only used when the
+<samp>--enable-newlib-iconv-external-ccs</samp> is used.
+</p>
+<a name="The-_0027mktbl_002epl_0027-Perl-script"></a>
+<h4 class="subsection">15.7.4 The &rsquo;mktbl.pl&rsquo; Perl script</h4>
+<br>
+<p>The &rsquo;mktbl.pl&rsquo; script is intended to generate .cct and .c CCS table
+files from the <em>CCS source files</em>.
+</p>
+<br>
+<p>The CCS source files are just text files which has one or more colons
+with CCS &lt;-&gt; UCS-2 codes mapping. To see an example of the CCS table
+source files see one of them using URL-s which will be given bellow.
+</p>
+<br>
+<p>The following table describes where the source files for CCS table files
+provided by the Newlib distribution are located.
+</p>
+<table>
+<tr><td width="25%">Name</td><td width="75%">URL</td></tr>
+<tr><td width="25%"></td><td width="75%"></td></tr>
+<tr><td width="25%">big5</td><td width="75%">http://www.unicode.org/Public/MAPPINGS/OBSOLETE/EASTASIA/OTHER/BIG5.TXT</td></tr>
+<tr><td width="25%">cns11643_plane1
+cns11643_plane14
+cns11643_plane2</td><td width="75%">http://www.unicode.org/Public/MAPPINGS/OBSOLETE/EASTASIA/OTHER/CNS11643.TXT</td></tr>
+<tr><td width="25%">cp775
+cp850
+cp852
+cp855
+cp866</td><td width="75%">http://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/PC/</td></tr>
+<tr><td width="25%">iso_8859_1
+iso_8859_2
+iso_8859_3
+iso_8859_4
+iso_8859_5
+iso_8859_6
+iso_8859_7
+iso_8859_8
+iso_8859_9
+iso_8859_10
+iso_8859_11
+iso_8859_13
+iso_8859_14
+iso_8859_15</td><td width="75%">http://www.unicode.org/Public/MAPPINGS/ISO8859/</td></tr>
+<tr><td width="25%">iso_ir_111</td><td width="75%">http://crl.nmsu.edu/~mleisher/csets/ISOIR111.TXT</td></tr>
+<tr><td width="25%">jis_x0201_1976
+jis_x0208_1990
+jis_x0212_1990</td><td width="75%">http://www.unicode.org/Public/MAPPINGS/OBSOLETE/EASTASIA/JIS/JIS0201.TXT</td></tr>
+<tr><td width="25%">koi8_r</td><td width="75%">http://www.unicode.org/Public/MAPPINGS/VENDORS/MISC/KOI8-R.TXT</td></tr>
+<tr><td width="25%">koi8_ru</td><td width="75%">http://crl.nmsu.edu/~mleisher/csets/KOI8RU.TXT</td></tr>
+<tr><td width="25%">koi8_u</td><td width="75%">http://crl.nmsu.edu/~mleisher/csets/KOI8U.TXT</td></tr>
+<tr><td width="25%">koi8_uni</td><td width="75%">http://crl.nmsu.edu/~mleisher/csets/KOI8UNI.TXT</td></tr>
+<tr><td width="25%">ksx1001</td><td width="75%">http://www.unicode.org/Public/MAPPINGS/OBSOLETE/EASTASIA/KSC/KSX1001.TXT</td></tr>
+<tr><td width="25%">win_1250
+win_1251
+win_1252
+win_1253
+win_1254
+win_1255
+win_1256
+win_1257
+win_1258</td><td width="75%">http://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/PC/</td></tr>
+</table>
+
+<p>The CCS source files aren&rsquo;t distributed with Newlib because of License
+restrictions in most Unicode.org&rsquo;s files.
+</p>
+<p>The following are &rsquo;mktbl.pl&rsquo; options which were used to generate .cct
+files. Note, to generate CCS tables source files <samp>-s</samp> option
+should be added.
+</p>
+<ol>
+<li> For the iso_8859_10.cct, iso_8859_13.cct, iso_8859_14.cct, iso_8859_15.cct,
+iso_8859_1.cct, iso_8859_2.cct, iso_8859_3.cct, iso_8859_4.cct,
+iso_8859_5.cct, iso_8859_6.cct, iso_8859_7.cct, iso_8859_8.cct,
+iso_8859_9.cct, iso_8859_11.cct, win_1250.cct, win_1252.cct, win_1254.cct
+win_1256.cct, win_1258.cct, win_1251.cct,
+win_1253.cct, win_1255.cct, win_1257.cct,
+koi8_r.cct, koi8_ru.cct, koi8_u.cct, koi8_uni.cct, iso_ir_111.cct,
+big5.cct, cp775.cct, cp850.cct, cp852.cct, cp855.cct, cp866.cct, cns11643.cct
+files, only the <samp>-i &lt;SRC_FILE_NAME&gt;</samp> option were used.
+
+</li><li> To generate the jis_x0208_1990.cct file, the
+<samp>-i jis_x0208_1990.txt -x 2 -y 3</samp> options were used.
+
+</li><li> To generate the cns11643_plane1.cct file, the
+<samp>-i cns11643.txt -p1 -N cns11643_plane1  -o cns11643_plane1.cct</samp>
+options were used.
+
+</li><li> To generate the cns11643_plane2.cct file, the
+<samp>-i cns11643.txt -p2 -N cns11643_plane2  -o cns11643_plane2.cct</samp>
+options were used.
+
+</li><li> To generate the cns11643_plane14.cct file, the
+<samp>-i cns11643.txt -p0xE -N cns11643_plane14  -o cns11643_plane14.cct</samp>
+options were used.
+</li></ol>
+
+<br>
+<p>For more info about the &rsquo;mktbl.pl&rsquo; options, see the &rsquo;mktbl.pl -h&rsquo; output.
+</p>
+<br>
+<p>It is assumed that CCS codes are 16 or less bits wide. If there are wider CCS codes
+in the CCS source file, the bits which are higher then 16 defines plane (see the
+cns11643.txt CCS source file).
+</p>
+<br>
+<p>Sometimes, it is impossible to map some CCS codes to the 16-bit UCS if, for example,
+several different CCS codes are mapped to one UCS-2 code or one CCS code is mapped to
+the pair of UCS-2 codes. In these cases, such CCS codes (<em>lost
+codes</em>) aren&rsquo;t just rejected but instead, they are mapped to the default
+UCS-2 code (which is currently the <kbd>?</kbd> character&rsquo;s code).
+</p>
+
+
+
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="CES-converters.html#CES-converters" accesskey="n" rel="next">CES converters</a>, Previous: <a href="Encoding-names.html#Encoding-names" accesskey="p" rel="prev">Encoding names</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

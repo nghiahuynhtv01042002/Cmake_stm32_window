@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Strings (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="Strings (The Red Hat newlib C Library)">
+<meta name="keywords" content="Strings (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="Function-bcmp.html#Function-bcmp" rel="next" title="Function bcmp">
+<link href="Function-tmpfile64.html#Function-tmpfile64" rel="prev" title="Function tmpfile64">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Strings"></a>
+<div class="header">
+<p>
+Next: <a href="Wchar-strings.html#Wchar-strings" accesskey="n" rel="next">Wchar strings</a>, Previous: <a href="Stdio64.html#Stdio64" accesskey="p" rel="prev">Stdio64</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Strings-and-Memory-_0028string_002eh_0029"></a>
+<h2 class="chapter">7 Strings and Memory (<samp>string.h</samp>)</h2>
+
+<p>This chapter describes string-handling functions and functions for
+managing areas of memory.  The corresponding declarations are in
+<samp>string.h</samp>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Function-bcmp.html#Function-bcmp" accesskey="1">Function bcmp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Compare two memory areas
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-bcopy.html#Function-bcopy" accesskey="2">Function bcopy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copy memory regions
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-bzero.html#Function-bzero" accesskey="3">Function bzero</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Initialize memory to zero
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-index2.html#Function-index" accesskey="4">Function index</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Search for character in string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-memccpy.html#Function-memccpy" accesskey="5">Function memccpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copy memory regions up to end-token
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-memchr.html#Function-memchr" accesskey="6">Function memchr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Find character in memory
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-memcmp.html#Function-memcmp" accesskey="7">Function memcmp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Compare two memory areas
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-memcpy.html#Function-memcpy" accesskey="8">Function memcpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copy memory regions
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-memmem.html#Function-memmem" accesskey="9">Function memmem</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Find memory segment
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-memmove.html#Function-memmove">Function memmove</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Move possibly overlapping memory
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-mempcpy.html#Function-mempcpy">Function mempcpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copy memory regions and locate end
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-memrchr.html#Function-memrchr">Function memrchr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Reverse search for character in memory
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-memset.html#Function-memset">Function memset</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Set an area of memory
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-rawmemchr.html#Function-rawmemchr">Function rawmemchr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Find character in memory
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-rindex.html#Function-rindex">Function rindex</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Reverse search for character in string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-stpcpy.html#Function-stpcpy">Function stpcpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copy string returning a pointer to its end
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-stpncpy.html#Function-stpncpy">Function stpncpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Counted copy string returning a pointer to its end
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strcasecmp.html#Function-strcasecmp">Function strcasecmp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Compare strings ignoring case
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strcasestr.html#Function-strcasestr">Function strcasestr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Find string segment ignoring case
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strcat.html#Function-strcat">Function strcat</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Concatenate strings
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strchr.html#Function-strchr">Function strchr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Search for character in string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strchrnul.html#Function-strchrnul">Function strchrnul</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Search for character in string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strcmp.html#Function-strcmp">Function strcmp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Character string compare
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strcoll.html#Function-strcoll">Function strcoll</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Locale-specific character string compare
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strcpy.html#Function-strcpy">Function strcpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copy string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strcspn.html#Function-strcspn">Function strcspn</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Count chars not in string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strerror.html#Function-strerror">Function strerror</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Convert error number to string (strerror, strerror_l)
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strerror_005fr.html#Function-strerror_005fr">Function strerror_r</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Convert error number to string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strlen.html#Function-strlen">Function strlen</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Character string length
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strlwr.html#Function-strlwr">Function strlwr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Convert string to lowercase
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strncasecmp.html#Function-strncasecmp">Function strncasecmp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Compare strings ignoring case
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strncat.html#Function-strncat">Function strncat</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Concatenate strings
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strncmp.html#Function-strncmp">Function strncmp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Character string compare
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strncpy.html#Function-strncpy">Function strncpy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Counted copy string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strnstr.html#Function-strnstr">Function strnstr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Find string segment
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strnlen.html#Function-strnlen">Function strnlen</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Character string length
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strpbrk.html#Function-strpbrk">Function strpbrk</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Find chars in string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strrchr.html#Function-strrchr">Function strrchr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Reverse search for character in string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strsignal.html#Function-strsignal">Function strsignal</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Return signal message string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strspn.html#Function-strspn">Function strspn</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Find initial match
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strstr.html#Function-strstr">Function strstr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Find string segment
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strtok.html#Function-strtok">Function strtok</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Get next token from a string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strupr.html#Function-strupr">Function strupr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Convert string to upper case
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strverscmp.html#Function-strverscmp">Function strverscmp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Compare version strings
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-strxfrm.html#Function-strxfrm">Function strxfrm</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Transform string
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-swab.html#Function-swab">Function swab</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Swap adjacent bytes
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcscasecmp.html#Function-wcscasecmp">Function wcscasecmp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Compare wide character strings ignoring case
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcsdup.html#Function-wcsdup">Function wcsdup</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Wide character string duplicate
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Function-wcsncasecmp.html#Function-wcsncasecmp">Function wcsncasecmp</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Compare wide character strings ignoring case
+</td></tr>
+</table>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Wchar-strings.html#Wchar-strings" accesskey="n" rel="next">Wchar strings</a>, Previous: <a href="Stdio64.html#Stdio64" accesskey="p" rel="prev">Stdio64</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

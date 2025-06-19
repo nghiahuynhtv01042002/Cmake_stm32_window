@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Function freopen64 (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="Function freopen64 (The Red Hat newlib C Library)">
+<meta name="keywords" content="Function freopen64 (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Stdio64.html#Stdio64" rel="up" title="Stdio64">
+<link href="Function-ftello64.html#Function-ftello64" rel="next" title="Function ftello64">
+<link href="Function-fopen64.html#Function-fopen64" rel="prev" title="Function fopen64">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Function-freopen64"></a>
+<div class="header">
+<p>
+Next: <a href="Function-ftello64.html#Function-ftello64" accesskey="n" rel="next">Function ftello64</a>, Previous: <a href="Function-fopen64.html#Function-fopen64" accesskey="p" rel="prev">Function fopen64</a>, Up: <a href="Stdio64.html#Stdio64" accesskey="u" rel="up">Stdio64</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="freopen64_002d_002d_002dopen-a-large-file-using-an-existing-file-descriptor"></a>
+<h3 class="section">6.3 <code>freopen64</code>&mdash;open a large file using an existing file descriptor</h3>
+<a name="index-freopen64"></a>
+<a name="index-_005ffreopen64_005fr"></a>
+<p><strong>Synopsis</strong>
+</p><div class="example">
+<pre class="example">#include &lt;stdio.h&gt;
+FILE *freopen64(const char *<var>file</var>, const char *<var>mode</var>,
+    FILE *<var>fp</var>);
+FILE *_freopen64_r(struct _reent *<var>ptr</var>, const char *<var>file</var>,
+    const char *<var>mode</var>, FILE *<var>fp</var>);
+
+</pre></div>
+<p><strong>Description</strong><br>
+Use this variant of <code>fopen64</code> if you wish to specify a particular file
+descriptor <var>fp</var> (notably <code>stdin</code>, <code>stdout</code>, or <code>stderr</code>) for
+the file.
+</p>
+<p>If <var>fp</var> was associated with another file or stream, <code>freopen64</code>
+closes that other file or stream (but ignores any errors while closing
+it).
+</p>
+<p><var>file</var> and <var>mode</var> are used just as in <code>fopen</code>.
+</p>
+<p>If <var>file</var> is <code>NULL</code>, the underlying stream is modified rather than
+closed.  The file cannot be given a more permissive access mode (for
+example, a <var>mode</var> of &quot;w&quot; will fail on a read-only file descriptor),
+but can change status such as append or binary mode.  If modification
+is not possible, failure occurs.
+</p>
+<br>
+<p><strong>Returns</strong><br>
+If successful, the result is the same as the argument <var>fp</var>.  If the
+file cannot be opened as specified, the result is <code>NULL</code>.
+</p>
+<br>
+<p><strong>Portability</strong><br>
+<code>freopen</code> is a glibc extension.
+</p>
+<p>Supporting OS subroutines required: <code>close</code>, <code>fstat</code>, <code>isatty</code>,
+<code>lseek64</code>, <code>open64</code>, <code>read</code>, <code>sbrk</code>, <code>write</code>.
+</p>
+<br>
+
+
+
+
+</body>
+</html>

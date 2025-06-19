@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Function iconv (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="Function iconv (The Red Hat newlib C Library)">
+<meta name="keywords" content="Function iconv (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Encoding-conversions.html#Encoding-conversions" rel="up" title="Encoding conversions">
+<link href="Introduction-to-iconv.html#Introduction-to-iconv" rel="next" title="Introduction to iconv">
+<link href="Encoding-conversions.html#Encoding-conversions" rel="prev" title="Encoding conversions">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Function-iconv"></a>
+<div class="header">
+<p>
+Next: <a href="Introduction-to-iconv.html#Introduction-to-iconv" accesskey="n" rel="next">Introduction to iconv</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="iconv_002c-iconv_005fopen_002c-iconv_005fclose_002d_002d_002dcharset-conversion-routines"></a>
+<h3 class="section">15.1 <code>iconv</code>, <code>iconv_open</code>, <code>iconv_close</code>&mdash;charset conversion routines</h3>
+<a name="index-iconv"></a>
+<a name="index-iconv_005fopen"></a>
+<a name="index-iconv_005fclose"></a>
+<a name="index-_005ficonv_005fr"></a>
+<a name="index-_005ficonv_005fopen_005fr"></a>
+<a name="index-_005ficonv_005fclose_005fr"></a>
+<p><strong>Synopsis</strong>
+</p><div class="example">
+<pre class="example">#include &lt;iconv.h&gt;
+iconv_t iconv_open (const char *<var>to</var>, const char *<var>from</var>);
+int iconv_close (iconv_t <var>cd</var>);
+size_t iconv (iconv_t <var>cd</var>, char **restrict <var>inbuf</var>, 
+    size_t *restrict <var>inbytesleft</var>, 
+    char **restrict <var>outbuf</var>, 
+    size_t *restrict <var>outbytesleft</var>);
+
+iconv_t _iconv_open_r (struct _reent *<var>rptr</var>, 
+    const char *<var>to</var>, const char *<var>from</var>);
+int _iconv_close_r (struct _reent *<var>rptr</var>, iconv_t <var>cd</var>);
+size_t _iconv_r (struct _reent *<var>rptr</var>,
+    iconv_t <var>cd</var>, const char **<var>inbuf</var>, 
+    size_t *<var>inbytesleft</var>, 
+    char **<var>outbuf</var>, size_t *<var>outbytesleft</var>);
+
+</pre></div>
+<p><strong>Description</strong><br>
+The function <code>iconv</code> converts characters from <var>in</var> which are in one
+encoding to characters of another encoding, outputting them to <var>out</var>.
+The value <var>inleft</var> specifies the number of input bytes to convert whereas
+the value <var>outleft</var> specifies the size remaining in the <var>out</var> buffer. 
+The conversion descriptor <var>cd</var> specifies the conversion being performed
+and is created via <code>iconv_open</code>.
+</p>
+<p>An <code>iconv</code> conversion stops if: the input bytes are exhausted, the output
+buffer is full, an invalid input character sequence occurs, or the
+conversion specifier is invalid.
+</p>
+<p>The function <code>iconv_open</code> is used to specify a conversion from one
+encoding: <var>from</var> to another: <var>to</var>.  The result of the call is
+to create a conversion specifier that can be used with <code>iconv</code>.
+</p>
+<p>The function <code>iconv_close</code> is used to close a conversion specifier after
+it is no longer needed.
+</p>
+<p>The <code>_iconv_r</code>, <code>_iconv_open_r</code>, and <code>_iconv_close_r</code> functions are
+reentrant versions of <code>iconv</code>, <code>iconv_open</code>, and <code>iconv_close</code>,
+respectively.  An additional reentrancy struct pointer: <var>rptr</var> is passed
+to properly set <code>errno</code>.
+</p>
+<br>
+<p><strong>Returns</strong><br>
+The <code>iconv</code> function returns the number of non-identical conversions
+performed.  If an error occurs, (size_t)-1 is returned and <code>errno</code>
+is set appropriately.  The values of <var>inleft</var>, <var>in</var>, <var>out</var>,
+and <var>outleft</var> are modified to indicate how much input was processed
+and how much output was created.
+</p>
+<p>The <code>iconv_open</code> function returns either a valid conversion specifier
+or (iconv_t)-1 to indicate failure.  If failure occurs, <code>errno</code> is set
+appropriately.
+</p>
+<p>The <code>iconv_close</code> function returns 0 on success or -1 on failure.
+If failure occurs <code>errno</code> is set appropriately.
+</p>
+<br>
+<p><strong>Portability</strong><br>
+<code>iconv</code>, <code>iconv_open</code>, and <code>iconv_close</code> are non-ANSI and are specified
+by the Single Unix specification.
+</p>
+<p>No supporting OS subroutine calls are required.
+</p>
+<br>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Introduction-to-iconv.html#Introduction-to-iconv" accesskey="n" rel="next">Introduction to iconv</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

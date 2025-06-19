@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Function popen (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="Function popen (The Red Hat newlib C Library)">
+<meta name="keywords" content="Function popen (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Posix.html#Posix" rel="up" title="Posix">
+<link href="Function-posix_005fspawn.html#Function-posix_005fspawn" rel="next" title="Function posix_spawn">
+<link href="Posix.html#Posix" rel="prev" title="Posix">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Function-popen"></a>
+<div class="header">
+<p>
+Next: <a href="Function-posix_005fspawn.html#Function-posix_005fspawn" accesskey="n" rel="next">Function posix_spawn</a>, Up: <a href="Posix.html#Posix" accesskey="u" rel="up">Posix</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="popen_002c-pclose_002d_002d_002dtie-a-stream-to-a-command-string"></a>
+<h3 class="section">14.1 <code>popen</code>, <code>pclose</code>&mdash;tie a stream to a command string</h3>
+<a name="index-popen"></a>
+<a name="index-pclose"></a>
+<p><strong>Synopsis</strong>
+</p><div class="example">
+<pre class="example">#include &lt;stdio.h&gt;
+FILE *popen(const char *<var>s</var>, const char *<var>mode</var>);
+
+int pclose(FILE *<var>f</var>);
+
+</pre></div>
+<p><strong>Description</strong><br>
+Use <code>popen</code> to create a stream to a child process executing a
+command string <code>*<var>s</var></code> as processed by <code>/bin/sh</code> on your system.
+The argument <var>mode</var> must start with either &lsquo;<code>r</code>&rsquo;, where the stream
+reads from the child&rsquo;s <code>stdout</code>, or &lsquo;<code>w</code>&rsquo;, where the stream writes
+to the child&rsquo;s <code>stdin</code>.  As an extension, <var>mode</var> may also contain
+&lsquo;<code>e</code>&rsquo; to set the close-on-exec bit of the parent&rsquo;s file descriptor.
+The stream created by <code>popen</code> must be closed by <code>pclose</code> to avoid
+resource leaks.
+</p>
+<p>Streams created by prior calls to <code>popen</code> are not visible in
+subsequent <code>popen</code> children, regardless of the close-on-exec bit.
+</p>
+<p>Use &ldquo;<code>system(NULL)</code>&rdquo; to test whether your system has <code>/bin/sh</code>
+available.
+</p>
+<br>
+<p><strong>Returns</strong><br>
+<code>popen</code> returns a file stream opened with the specified <var>mode</var>,
+or <code>NULL</code> if a child process could not be created.  <code>pclose</code>
+returns -1 if the stream was not created by <code>popen</code> or if the
+application used <code>wait</code> or similar to steal the status; otherwise
+it returns the exit status of the child which can be interpreted
+in the same manner as a status obtained by <code>waitpid</code>.
+</p>
+<br>
+<p><strong>Portability</strong><br>
+POSIX.2 requires <code>popen</code> and <code>pclose</code>, but only specifies a mode
+of just <code>r</code> or <code>w</code>.  Where <code>sh</code> is found is left unspecified.
+</p>
+<p>Supporting OS subroutines required: <code>_exit</code>, <code>_execve</code>, <code>_fork_r</code>,
+<code>_wait_r</code>, <code>pipe</code>, <code>fcntl</code>, <code>sbrk</code>.
+</p>
+<br>
+
+
+
+
+</body>
+</html>

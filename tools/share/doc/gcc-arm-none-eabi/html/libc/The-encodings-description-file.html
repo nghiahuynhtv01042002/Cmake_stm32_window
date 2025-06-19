@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>The encodings description file (The Red Hat newlib C Library)</title>
+
+<meta name="description" content="The encodings description file (The Red Hat newlib C Library)">
+<meta name="keywords" content="The encodings description file (The Red Hat newlib C Library)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Document-Index.html#Document-Index" rel="index" title="Document Index">
+<link href="Function-Index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Encoding-conversions.html#Encoding-conversions" rel="up" title="Encoding conversions">
+<link href="How-to-add-new-encoding.html#How-to-add-new-encoding" rel="next" title="How to add new encoding">
+<link href="CES-converters.html#CES-converters" rel="prev" title="CES converters">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="The-encodings-description-file"></a>
+<div class="header">
+<p>
+Next: <a href="How-to-add-new-encoding.html#How-to-add-new-encoding" accesskey="n" rel="next">How to add new encoding</a>, Previous: <a href="CES-converters.html#CES-converters" accesskey="p" rel="prev">CES converters</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="The-encodings-description-file-1"></a>
+<h3 class="section">15.9 The encodings description file</h3>
+<a name="index-encoding_002edeps-description-file"></a>
+<a name="index-mkdeps_002epl-Perl-script"></a>
+<br>
+<p>To simplify the process of adding new encodings support allowing to
+automatically generate a lot of &quot;glue&quot; files.
+</p>
+<br>
+<p>There is the &rsquo;encoding.deps&rsquo; file in the <em>lib/</em> subdirectory which
+is used to describe encoding&rsquo;s properties. The &rsquo;mkdeps.pl&rsquo; Perl script
+uses &rsquo;encoding.deps&rsquo; to generates the &quot;glue&quot; files.
+</p>
+<br>
+<p>The &rsquo;encoding.deps&rsquo; file is composed of sections, each section consists
+of entries, each entry contains some encoding/CES/CCS description. 
+</p>
+<br>
+<p>The &rsquo;encoding.deps&rsquo; file&rsquo;s syntax is very simple. Currently only two
+sections are defined: <em>ENCODINGS</em> and <em>CES_DEPENDENCIES</em>.
+</p>
+<br>
+<p>Each <em>ENCODINGS</em> section&rsquo;s entry describes one encoding and
+contains the following information.
+</p>
+<ul>
+<li> Encoding name (the <em>ENCODING</em> field). The name should
+be unique and only one name is possible.
+
+</li><li> The encoding&rsquo;s CES converter name (the <em>CES</em> field). Only one CES
+converter is allowed.
+
+</li><li> The whitespace-separated list of CCS table names which are used by the
+encoding (the <em>CCS</em> field).
+
+</li><li> The whitespace-separated list of aliases names (the <em>ENCODING</em>
+field).
+</li></ul>
+
+<br>
+<p>Note all names in the &rsquo;encoding.deps&rsquo; file have to have the normalized
+form.
+</p>
+<br>
+<p>Each <em>CES_DEPENDENCIES</em> section&rsquo;s entry describes dependencies of
+one CES converted. For example, the <em>euc</em> CES converter depends on
+the <em>table</em> and the <em>us_ascii</em> CES converter since the
+<em>euc</em> CES converter uses them. This means, that both <em>table</em>
+and <em>us_ascii</em> CES converters should be linked if the <em>euc</em>
+CES converter is enabled.
+</p>
+<br>
+<p>The <em>CES_DEPENDENCIES</em> section defines the following:
+</p>
+<ul>
+<li> the CES converter name for which the dependencies are defined in this
+entry (the <em>CES</em> field);
+
+</li><li> the whitespace-separated list of CES converters which are needed for
+this CES converter (the <em>USED_CES</em> field).
+</li></ul>
+
+<br>
+<p>The &rsquo;mktbl.pl&rsquo; Perl script automatically solves the following tasks.
+</p>
+<ul>
+<li> User works with the iconv library in terms of encodings and doesn&rsquo;t know
+anything about CES converters and CCS tables. The script automatically
+generates code which enables all needed CES converters and CCS tables
+for all encodings, which were enabled by the user.
+
+</li><li> The CES converters may have dependencies and the script automatically
+generates the code which handles these dependencies.
+
+</li><li> The list of encoding&rsquo;s aliases is also automatically generated.
+
+</li><li> The script uses a lot of macros in order to enable only the minimum set
+of code/data which is needed to support the requested encodings in the
+requested directions.
+</li></ul>
+
+<br>
+<p>The &rsquo;mktbl.pl&rsquo; Perl script is intended to interpret the &rsquo;encoding.deps&rsquo;
+file and generates the following files.
+</p>
+<ul>
+<li> <em>lib/encnames.h</em> - this header files contains macro definitions for all
+encoding names
+
+</li><li> <em>lib/aliasesbi.c</em> - the array of encoding names and aliases. The array
+is used to find the name of requested encoding by it&rsquo;s alias.
+
+</li><li> <em>ces/cesbi.c</em> - this file defines two arrays
+(<code>_iconv_from_ucs_ces</code> and <code>_iconv_to_ucs_ces</code>) which contain
+description of enabled &quot;to UCS&quot; and &quot;from UCS&quot; CES converters and the
+names of encodings which are supported by these CES converters.
+
+</li><li> <em>ces/cesbi.h</em> - this file contains the set of macros which defines
+the set of CES converters which should be enabled if only the set of
+enabled encodings is given (through macros defined in the
+<em>newlib.h</em> file). Note, that one CES converter may handle several
+encodings.
+
+</li><li> <em>ces/cesdeps.h</em> - the CES converters dependencies are handled in
+this file.
+
+</li><li> <em>ccs/ccsdeps.h</em> - the array of linked-in CCS tables is defined
+here.
+
+</li><li> <em>ccs/ccsnames.h</em> - this header files contains macro definitions for all
+CCS names.
+
+</li><li> <em>encoding.aliases</em> - the list of supported encodings and their
+aliases which is intended for the Newlib configure scripts in order to
+handle the iconv-related configure script options.
+</li></ul>
+
+
+
+
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="How-to-add-new-encoding.html#How-to-add-new-encoding" accesskey="n" rel="next">How to add new encoding</a>, Previous: <a href="CES-converters.html#CES-converters" accesskey="p" rel="prev">CES converters</a>, Up: <a href="Encoding-conversions.html#Encoding-conversions" accesskey="u" rel="up">Encoding conversions</a> &nbsp; [<a href="Function-Index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Document-Index.html#Document-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>
