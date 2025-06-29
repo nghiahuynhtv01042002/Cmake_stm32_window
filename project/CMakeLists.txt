@@ -20,22 +20,27 @@ set(MCU_FLAGS
     -mthumb
     -mfpu=fpv4-sp-d16
     -mfloat-abi=hard
-    # -Oz
 )
 set(OPTIMIZE_FLAGS
     -Oz
 )
 # -----------------------------------------------------------------------------
-#  Common warnings 
+#  Common flags
 # -----------------------------------------------------------------------------
 set(COMMON_FLAGS
     -Wall
     -ffunction-sections
     -fdata-sections
+    -fno-unroll-loops
+    -fomit-frame-pointer
+    -flto
+)
+set(LINKER_OPTIMIZE
+    -Wl,--gc-sections
 )
 
 # Apply the flags to every compile command
-add_compile_options(${MCU_FLAGS} ${COMMON_FLAGS} ${OPTIMIZE_FLAGS})
+add_compile_options(${MCU_FLAGS} ${COMMON_FLAGS} ${OPTIMIZE_FLAGS} ${LINKER_OPTIMIZE})
 
 # Build‑type‑specific optimiser/debug switches
 set(CMAKE_C_FLAGS_DEBUG   -g3 -O0 -DDEBUG)
